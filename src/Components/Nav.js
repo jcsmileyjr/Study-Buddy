@@ -1,8 +1,5 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
-/*FF9400, E88D0C orange color
-- use `` to combine bootstrap and aphrodite
-*/
 
 const styles = StyleSheet.create({
   navBackground:{
