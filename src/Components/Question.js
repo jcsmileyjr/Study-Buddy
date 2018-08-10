@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 
 function Question(props){
   return(
-    <div className="text-center">
+    <div className="row text-center">
 	  <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		What is the color of the apple?   <span><i className= {`fas fa-book ${css(styles.listOfAnswers)}`}></i></span>
 	  </div>		
