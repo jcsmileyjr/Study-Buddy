@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import {connect} from 'react-redux';
 
 const styles = StyleSheet.create({
   //add whitespace between the radio button and the answer	
@@ -28,22 +29,11 @@ const styles = StyleSheet.create({
 	
 });
 
-const arrayofAnswers = [
-	{"answer":"Red", "passFail":"asking"},
-	{"answer":"Yellow", "passFail":"asking"},
-	{"answer":"Purple", "passFail":"asking"}
-];
-
 class MCAnswersList extends Component{
-/*	
-  constructor(props){
-    super(props);
-  }
-*/
 	
 //function to create an array of options to be displayed
 displayAnswers(){
-	
+  const arrayofAnswers = this.props.answerList;	
   const listOfAnswers = arrayofAnswers.map((answers, index) =>
 	<li key={index}>
 	    <input className={css(styles.spaceBetweenOptions)} type="radio" value={answers.answer} />
@@ -55,6 +45,7 @@ displayAnswers(){
 
 
   render(){	
+	  console.log(this.props.answerList);
 	  return(
 		<div className={`row ${css(styles.indentAnswerOptions)}`}>
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -68,4 +59,8 @@ displayAnswers(){
 - Between break points 757 - 525 the radio options are skewer to the left
 */
 
-export default MCAnswersList;
+const mapStateToProps = state => ({
+	answerList: state.test
+})
+
+export default connect(mapStateToProps)(MCAnswersList);
