@@ -8,30 +8,10 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 
 import './index.css';
 import App from './App';
+import correctAnsweredCount from './Reducers/correctAnsweredCount.js';
+import questionAnsweredCount from './Reducers/questionAnsweredCount.js';
+import test from './Reducers/tests.js';
 import registerServiceWorker from './registerServiceWorker';
-
-const arrayOfAnswers = [
-	{"answer":"Red", "passFail":"asking"},
-	{"answer":"Yellow", "passFail":"asking"},
-	{"answer":"Purple", "passFail":"asking"}
-];
-
-//reducer that holds the arrayOfAnswers as the initial state of questions and answers.
-function test(state = arrayOfAnswers, action){
-	return state;
-}
-
-//reducer that holds the current count of correctly answer questions. This is use with the questionAnsweredCount to determine the score 
-function correctAnsweredCount(state ={"count": 0}, action){
-	switch(action.type){
-		case 'addScore':
-			return {
-				count: state.count + 1
-			};
-		default:
-			return state;
-	}//end of switch
-}
 
 //Action for the correctAnsweredCount reducer. 
 /*
@@ -40,13 +20,8 @@ function addCorrectAnswer(){
 }
 */
 
-const addCorrectAnswer = () => ({type:"addScore"}); 
-
-//reducer that holds the current count of questions answers. This is use with the correctAnswerCount to determine the score
-function questionAnsweredCount(state={"questionAnswered": 0}, action){
-	return state;
-}
-
+const addCorrectAnswer = {type:"addScore"};
+const countQuestionAnswered = {type:"addQuestionsAnswered"};
 
 const allReducers = combineReducers({
 	count: correctAnsweredCount,
@@ -55,6 +30,9 @@ const allReducers = combineReducers({
 });
 
 const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+store.dispatch(addCorrectAnswer);
+store.dispatch(countQuestionAnswered);
 
 console.log(store.getState());
 ReactDOM.render(
