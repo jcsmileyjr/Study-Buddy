@@ -9,10 +9,10 @@ const styles = StyleSheet.create({
 	
   //change the size of the radio button size and whitespace between them	
   spaceBetweenOptions: {
-	  marginBottom: "20px",
+	  marginBottom: "0px",
 	  height: "4.3vh",
 	  width: "4.3vh",
-	  margin: "4px 0 0"
+	  verticalAlign: "middle"
   },
 	
   /*remove the bullets and indention from the lists displaying the cases*/
@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
   },
 	
   adjustLabel: {
-	  minHeight: "20px",
-	  fontSize: "150%"
+	  
   }	
 	
 });
@@ -48,8 +47,7 @@ displayAnswers(){
 	    <input className={css(styles.spaceBetweenOptions)} type="radio" value={answers.answer} />
 		<label className={css(styles.adjustLabel)}>{answers.answer}</label>				   
 	</li>									   
-  );  	
-  console.dir(listOfAnswers);
+  );
 	return listOfAnswers;
 }
 
