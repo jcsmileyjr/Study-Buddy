@@ -4,6 +4,9 @@ import { StyleSheet, css } from 'aphrodite';
 import Nav from './Components/Nav.js';
 import Question from './Components/Question.js';
 import MCAnswersList from './Components/MCAnswersList.js';
+import CheckAnswerButton from './Components/CheckAnswerButton.js';
+import DoneButton from './Components/DoneButton.js';
+import Motivation from './Components/Motivation.js';
 
 const styles = StyleSheet.create({
   //create stripe grey lines throughout the app background as long as there is content	
@@ -37,6 +40,9 @@ class App extends Component {
 		  <Nav score={this.state.score} />
 		  <Question />
 		  <MCAnswersList />
+		  <CheckAnswerButton />
+		  <DoneButton />
+		  <Motivation />
 		</div>
       </div>
     );
