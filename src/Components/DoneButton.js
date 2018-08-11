@@ -14,9 +14,11 @@ const styles = StyleSheet.create({
  
  
 class DoneButton extends Component{
+/*	
   constructor(props){
     super(props);
   }
+*/
         
   render(){
      return(

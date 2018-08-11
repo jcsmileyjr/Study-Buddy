@@ -35,9 +35,11 @@ const arrayofAnswers = [
 ];
 
 class MCAnswersList extends Component{
-	constructor(props){
-	  super(props);	
-	}
+/*	
+  constructor(props){
+    super(props);
+  }
+*/
 	
 //function to create an array of options to be displayed
 displayAnswers(){
