@@ -5,7 +5,11 @@ import { StyleSheet, css } from 'aphrodite';
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
           margin: "10px"
-  }     
+  },
+	
+  buttonTextColor:{
+	  color: "black"
+  }	     
 });
  
  
@@ -18,7 +22,7 @@ class DoneButton extends Component{
      return(
        <div className={`row ${css(styles.whiteSpaceAboveElement)}`}>
          <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-            <Button bsStyle="success">Done</Button>
+            <Button className={css(styles.buttonTextColor)} bsStyle="success">Done</Button>
          </div>
        </div> 
       );      //end of return

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
-  //add whitespace between teh radio button and the answer	
+  //add whitespace between the radio button and the answer	
   indentAnswerOptions:{
 	  textIndent: "5%"
   },
@@ -55,12 +55,15 @@ displayAnswers(){
   render(){	
 	  return(
 		<div className={`row ${css(styles.indentAnswerOptions)}`}>
-		  <div className="col-xs-10 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-md-offset-4">
+		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
 			<ul className={css(styles.removeListBullets)}>{this.displayAnswers()}</ul>
 		  </div>		
 		</div>  
 	  );
   }
 }
+/*	Issues
+- Between break points 757 - 525 the radio options are skewer to the left
+*/
 
 export default MCAnswersList;
