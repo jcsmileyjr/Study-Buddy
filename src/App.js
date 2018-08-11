@@ -29,7 +29,7 @@ class App extends Component {
   }	
   render() {
     return (
-      <div className="container">
+      <div className="container-fliud">
 		<div className= {`col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-xl-6 col-xl-offset-3 ${css(styles.appBackground)}`}>
 		  <Nav score={this.state.score} />
 		  <Question />
