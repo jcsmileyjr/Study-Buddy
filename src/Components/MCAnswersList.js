@@ -31,10 +31,70 @@ const styles = StyleSheet.create({
 
 class MCAnswersList extends Component{
 	
+//function to get the current answer to be use in the displayAnswers()
+getCurrentAnswer(answers){
+	
+  //current index of the test based off of how mnay questions the user has answered. This information is from the currentAnsweredCount state	
+  const location = 	(this.props.currentLocation).questionAnswered;
+	
+  //current correct answer
+  const currentCorrectAnswer = answers[location].answer;
+
+  return currentCorrectAnswer;	
+}
+
+//function to randomize two answers plus the correct answer. You must give it a array of questions/answer and the correct answer
+getRandomThreeAnswers(answers, correctAnswer){
+	
+  const currentTestAnswers = [];	
+	
+  const currentAnswerArray = answers.map(function(x){return x.answer});
+  
+  //randomly pick the first answer. Keep if it doesn’t match the currentCorrectAnswer, re-pick if it matches the currentCorrectAnswer
+  var firstAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
+  
+  while(correctAnswer===firstAnswer){
+     firstAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
+  }
+
+  //randomly pick the second answer and keep if it doesn’t match the correct answer and first answer
+  var secondAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
+  while(correctAnswer===secondAnswer || firstAnswer === secondAnswer){
+     secondAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
+  }
+
+  //push all answers into the currentTestAnswers as an object with a second attribute as true or false
+  currentTestAnswers.push({"answer": correctAnswer, "correct":true}, {"answer": firstAnswer, "correct":false}, {"answer": secondAnswer, "correct":false});
+            
+   //Shuffle the currentTestAnswers array
+   var currentIndex = currentTestAnswers.length, temporayValue, randomIndex;
+            
+   while(0 !== currentIndex){
+     randomIndex = Math.floor(Math.random() * currentIndex);
+     currentIndex -= 1;
+                
+     temporayValue = currentTestAnswers[currentIndex];
+     currentTestAnswers[currentIndex] = currentTestAnswers[randomIndex];
+     currentTestAnswers[randomIndex] = temporayValue;
+   }
+ 	
+  return currentTestAnswers;	
+}	
+	
 //function to create an array of options to be displayed
 displayAnswers(){
+	
+  //list of questions and answers from the test state	
   const arrayofAnswers = this.props.answerList;	
-  const listOfAnswers = arrayofAnswers.map((answers, index) =>
+  
+  //list of questions and answers from the test state	
+  const currentAnswer = this.getCurrentAnswer(arrayofAnswers);	
+	
+  //get a random two incorrect answers and the correct answered to be displayed	
+  const randomAnswers = this.getRandomThreeAnswers(arrayofAnswers, currentAnswer);	
+	
+  //create a array of options as <li> to be displayed as answers	
+  const listOfAnswers = randomAnswers.map((answers, index) =>
 	<li key={index}>
 	    <input className={css(styles.spaceBetweenOptions)} type="radio" value={answers.answer} />
 		<label className={css(styles.adjustLabel)}>{answers.answer}</label>				   
@@ -59,7 +119,8 @@ displayAnswers(){
 */
 
 const mapStateToProps = state => ({
-	answerList: state.test
+	answerList: state.test,
+	currentLocation: state.answered	
 })
 
 export default connect(mapStateToProps)(MCAnswersList);
