@@ -3,21 +3,24 @@ import {Button} from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import {addCorrectAnswer} from '../Actions/correctCountActions.js';
+import {addQuestionsAnswered} from '../Actions/questionAnsweredActions.js';
 
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
-          margin: "10px"
+          margin: "10px" //add whitespace above button
   },
 	
   buttonTextColor:{
-	  color: "black"
+	  color: "black" //button text is black
   }	
 });
 
 class CheckAnswerButton extends Component{
 
+  //Method use when user click the button. It adds one to the questonAnswered state and correctAnsweredCount	
   onAddCorrectAnswer = event => {
 	  this.props.onAddCorrectAnswer();
+	  this.props.onAddQuestionsAnswered();
   }	
 
   render(){
@@ -41,7 +44,8 @@ class CheckAnswerButton extends Component{
 }//end of CheckAnswerButton Class
 
 const mapActionsToProps = {
-  onAddCorrectAnswer: addCorrectAnswer
+  onAddCorrectAnswer: addCorrectAnswer,
+  onAddQuestionsAnswered: addQuestionsAnswered
 };
 
 export default connect(null,mapActionsToProps)(CheckAnswerButton);

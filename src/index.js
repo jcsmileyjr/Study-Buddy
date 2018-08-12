@@ -13,14 +13,6 @@ import questionAnsweredCount from './Reducers/questionAnsweredCount.js';
 import test from './Reducers/tests.js';
 import registerServiceWorker from './registerServiceWorker';
 
-//Action for the correctAnsweredCount reducer. 
-/*
-function addCorrectAnswer(){ 
-	return {type:"addScore"};
-}
-*/
-const countQuestionAnswered = {type:"addQuestionsAnswered"};
-
 const allReducers = combineReducers({
 	count: correctAnsweredCount,
 	answered: questionAnsweredCount,
@@ -28,9 +20,6 @@ const allReducers = combineReducers({
 });
 
 const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
-
-store.dispatch(countQuestionAnswered);
 
 ReactDOM.render(
 	<Provider store={store}>
