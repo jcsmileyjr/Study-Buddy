@@ -45,7 +45,6 @@ displayAnswers(){
 
 
   render(){	
-	  console.log(this.props.answerList);
 	  return(
 		<div className={`row ${css(styles.indentAnswerOptions)}`}>
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">

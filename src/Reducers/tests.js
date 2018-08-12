@@ -4,7 +4,7 @@ export default function test(state = arrayOfAnswers, action){
 }
 
 const arrayOfAnswers = [
-	{"answer":"Red", "passFail":"asking"},
-	{"answer":"Yellow", "passFail":"asking"},
-	{"answer":"Purple", "passFail":"asking"}
+	{"question":"What is the color of an Apple?","answer":"Red", "passFail":"asking"},
+	{"question":"What is the color of an Banana?","answer":"Yellow", "passFail":"asking"},
+	{"question":"What is the color of an Grape?","answer":"Purple", "passFail":"asking"}
 ];

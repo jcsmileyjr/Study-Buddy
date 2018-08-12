@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite';
+import {connect} from 'react-redux';
 
 const styles = StyleSheet.create({
   listOfAnswers:{
@@ -10,11 +11,12 @@ const styles = StyleSheet.create({
 });
 
 function Question(props){
+  	
   return(
     <div className="row text-center">
 	  <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<h3>
-	  	  What is the color of the apple?   
+	  	  WHAT!!!
 	  	  <span>
 	  		<i className= {`fas fa-book ${css(styles.listOfAnswers)}`}></i>
 		  </span>
@@ -24,4 +26,8 @@ function Question(props){
   );	
 }
 
-export default Question;
+const mapStateToProps = state =>({
+	question: state.test[0].question
+});
+
+export default connect(mapStateToProps)(Question);

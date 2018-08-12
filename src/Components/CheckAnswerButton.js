@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
+import {connect} from 'react-redux';
+import {addCorrectAnswer} from '../Actions/correctCountActions.js';
 
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
@@ -13,16 +15,16 @@ const styles = StyleSheet.create({
 });
 
 class CheckAnswerButton extends Component{
-/*	
-  constructor(props){
-    super(props);
-  }
-*/
+
+  onAddCorrectAnswer = event => {
+	  this.props.onAddCorrectAnswer();
+  }	
+
   render(){
     return(
       <div className={`row ${css(styles.whiteSpaceAboveElement)}`}>
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-          <Button className={css(styles.buttonTextColor)} bsStyle="success">Check Answer</Button>
+          <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.onAddCorrectAnswer}>Check Answer</Button>
         </div>
       </div>
    );      //end of return
@@ -38,4 +40,8 @@ class CheckAnswerButton extends Component{
 
 }//end of CheckAnswerButton Class
 
-export default CheckAnswerButton;
+const mapActionsToProps = {
+  onAddCorrectAnswer: addCorrectAnswer
+};
+
+export default connect(null,mapActionsToProps)(CheckAnswerButton);

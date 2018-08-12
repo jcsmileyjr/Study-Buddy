@@ -19,8 +19,6 @@ function addCorrectAnswer(){
 	return {type:"addScore"};
 }
 */
-
-const addCorrectAnswer = {type:"addScore"};
 const countQuestionAnswered = {type:"addQuestionsAnswered"};
 
 const allReducers = combineReducers({
@@ -31,10 +29,9 @@ const allReducers = combineReducers({
 
 const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-store.dispatch(addCorrectAnswer);
+
 store.dispatch(countQuestionAnswered);
 
-console.log(store.getState());
 ReactDOM.render(
 	<Provider store={store}>
 		<App />
