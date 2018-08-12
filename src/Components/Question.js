@@ -10,13 +10,13 @@ const styles = StyleSheet.create({
 	
 });
 
-function Question(props){
+function Question({question}){
   	
   return(
     <div className="row text-center">
 	  <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<h3>
-	  	  WHAT!!!
+	  	  {question}
 	  	  <span>
 	  		<i className= {`fas fa-book ${css(styles.listOfAnswers)}`}></i>
 		  </span>
