@@ -19,6 +19,7 @@ class CheckAnswerButton extends Component{
 
   //Method use when user click the button. It adds one to the questonAnswered state and correctAnsweredCount	
   onAddCorrectAnswer = event => {
+	  //if statement checking if userAnswer = correctAnswer. if true, run onAddCorrectAnswer()
 	  this.props.onAddCorrectAnswer();
 	  this.props.onAddQuestionsAnswered();
   }	
