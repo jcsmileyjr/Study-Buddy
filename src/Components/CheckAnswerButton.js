@@ -16,19 +16,28 @@ const styles = StyleSheet.create({
 });
 
 class CheckAnswerButton extends Component{
+  getScore(){
+    //let newScore = (this.props.currentCount.count/this.props.questionsAnswered.questionAnswered)*100;
+	
+	let newScore = this.props.questionsAnswered.questionAnswered;
+	console.log(newScore);	  
+  }		
 
   //Method use when user click the button. It adds one to the questonAnswered state and correctAnsweredCount	
-  onAddCorrectAnswer = event => {
+  onCheckAnswer = event => {
 	  //if statement checking if userAnswer = correctAnswer. if true, run onAddCorrectAnswer()
+	  console.log(this.props.questionsAnswered.questionAnswered);
 	  this.props.onAddCorrectAnswer();
 	  this.props.onAddQuestionsAnswered();
+	  //Update score by dividing questionAnswer/count, then updating score
+	  this.getScore();
   }	
 
   render(){
     return(
       <div className={`row ${css(styles.whiteSpaceAboveElement)}`}>
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-          <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.onAddCorrectAnswer}>Check Answer</Button>
+          <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.onCheckAnswer}>Check Answer</Button>
         </div>
       </div>
    );      //end of return
@@ -44,9 +53,15 @@ class CheckAnswerButton extends Component{
 
 }//end of CheckAnswerButton Class
 
+/*Use Redux to get the current number of questions answered and current count of correct answers*/
+const mapStateToProps = state =>({
+	currentCount: state.count,
+	questionsAnswered: state.answered
+});
+
 const mapActionsToProps = {
   onAddCorrectAnswer: addCorrectAnswer,
   onAddQuestionsAnswered: addQuestionsAnswered
 };
 
-export default connect(null,mapActionsToProps)(CheckAnswerButton);
+export default connect(mapStateToProps,mapActionsToProps)(CheckAnswerButton);

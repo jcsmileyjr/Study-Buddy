@@ -96,7 +96,7 @@ displayAnswers(){
   //create a array of options as <li> to be displayed as answers	
   const listOfAnswers = randomAnswers.map((answers, index) =>
 	<li key={index}>
-	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} checked="true" />
+	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} />
 		<label className={css(styles.adjustLabel)}>{answers.answer}</label>				   
 	</li>									   
   );

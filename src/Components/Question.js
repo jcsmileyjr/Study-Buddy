@@ -40,7 +40,7 @@ function Question({question, currentLocation}){
 /*Use Redux to get the current list of questions/answers and number of questions answered*/
 const mapStateToProps = state =>({
 	question: state.test,
-	currentLocation: state.answered	
+	currentLocation: state.answered
 });
 
 export default connect(mapStateToProps)(Question);

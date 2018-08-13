@@ -10,12 +10,14 @@ import './index.css';
 import App from './App';
 import correctAnsweredCount from './Reducers/correctAnsweredCount.js';
 import questionAnsweredCount from './Reducers/questionAnsweredCount.js';
+import updateScore from './Reducers/score.js';
 import test from './Reducers/tests.js';
 import registerServiceWorker from './registerServiceWorker';
 
 const allReducers = combineReducers({
 	count: correctAnsweredCount,
 	answered: questionAnsweredCount,
+	score: updateScore,
 	test: test
 });
 
