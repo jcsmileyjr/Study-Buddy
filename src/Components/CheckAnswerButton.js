@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
 });
 
 class CheckAnswerButton extends Component{
+  //Update the score by dividing questionAnswer/count (the current amount of questions answer by the count of correct answers given.
   getScore(){
     let newScore = (this.props.currentCount.count/this.props.questionsAnswered.questionAnswered)*100;
 	
@@ -29,8 +30,11 @@ class CheckAnswerButton extends Component{
 	  //if statement checking if userAnswer = correctAnswer. if true, run onAddCorrectAnswer()
 	  this.props.onAddCorrectAnswer();
 	  this.props.onAddQuestionsAnswered();
-	  //Update score by dividing questionAnswer/count, then updating score
-	  this.getScore();
+	  
+	  //Update the score by dividing questionAnswer/count (the current amount of questions answer by the count of correct answers given, then waiting 5 seconds before updating score. The timeout give the async Redux actions time to update. If not use, the first variable, count, updates before the second variable and return a NAN. 
+	  setTimeout(() =>{
+		  this.getScore(), 5000
+	  });
   }	
 
   render(){
