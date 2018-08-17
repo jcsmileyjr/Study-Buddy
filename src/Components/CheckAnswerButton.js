@@ -63,6 +63,7 @@ const mapStateToProps = state =>({
 	questionsAnswered: state.answered
 });
 
+//map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store
 const mapActionsToProps = {
   onAddCorrectAnswer: addCorrectAnswer,
   onAddQuestionsAnswered: addQuestionsAnswered,

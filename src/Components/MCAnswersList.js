@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 
+import {getUserAnswer} from '../Actions/userAnswerActions.js';//import action to update the user's choice to the userAnswer state
+
 const styles = StyleSheet.create({
   //add whitespace between the radio button and the answer	
   indentAnswerOptions:{
@@ -93,16 +95,20 @@ displayAnswers(){
   //get a random two incorrect answers and the correct answered to be displayed	
   const randomAnswers = this.getRandomThreeAnswers(arrayofAnswers, currentAnswer);	
 	
-  //create a array of options as <li> to be displayed as answers	
+  //create a array of options as <li> to be displayed as answers. When the user select answer, the value is updated to the userAnswer state	
   const listOfAnswers = randomAnswers.map((answers, index) =>
 	<li key={index}>
-	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} />
+	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} />
 		<label className={css(styles.adjustLabel)}>{answers.answer}</label>				   
 	</li>									   
   );
+	
 	return listOfAnswers;
 }
 
+saveUserAnswer = event =>{
+	this.props.onUpdateUserAnswer(event.target.value);
+}
 
   render(){	
 	  return(
@@ -116,11 +122,18 @@ displayAnswers(){
 }
 /*	Issues
 - Between break points 757 - 525 the radio options are skewer to the left
+- Within the onCheckAnswer(), check if the userAnswer is correct. If it is correct, update the correctAnswer state and questionAnswer state. If not, then just update questionAnswer state.
 */
 
+//map imported state of the tests and number of questions answered in the Redux store to local variables to be use by the component. 
 const mapStateToProps = state => ({
 	answerList: state.test,
 	currentLocation: state.answered	
-})
+});
 
-export default connect(mapStateToProps)(MCAnswersList);
+//map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store
+const mapActionsToProps = {
+  onUpdateUserAnswer: getUserAnswer 
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(MCAnswersList);
