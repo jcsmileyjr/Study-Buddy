@@ -8,15 +8,30 @@ import {updateScore} from '../Actions/scoreActions.js';
 
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
-          margin: "10px" //add whitespace above button
+    margin: "10px" //add whitespace above button
   },
 	
   buttonTextColor:{
-	  color: "black" //button text is black
+	color: "black" //button text is black
+  },
+	
+  wrongAnswers:{
+	color: "red",
+	textDecoration: "line-through"
+  },
+	
+  correctAnswer:{
+	  color: "green",
+	  fontSize: "1.2em"
   }	
 });
 
 class CheckAnswerButton extends Component{
+	
+  /*
+  	- Create
+  */
+	
   //Update the score by dividing the count of correct answers given by the current amount of questions answer.
   getScore(){
     let newScore = (this.props.currentCount.count/this.props.questionsAnswered.questionAnswered)*100;
