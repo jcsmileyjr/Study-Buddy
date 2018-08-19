@@ -3,8 +3,6 @@ import {Button} from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import {addCorrectAnswer} from '../Actions/correctCountActions.js';
-import {addQuestionsAnswered} from '../Actions/questionAnsweredActions.js';
-import {updateScore} from '../Actions/scoreActions.js';
 
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
@@ -17,27 +15,12 @@ const styles = StyleSheet.create({
 });
 
 class CheckAnswerButton extends Component{
-  //Update the score by dividing the count of correct answers given by the current amount of questions answer.
-  getScore(){
-    let newScore = (this.props.currentCount.count/this.props.questionsAnswered.questionAnswered)*100;
-	
-	//local method connected to a Redux method to update the score in the Redux store
-	this.props.onUpdateScore(newScore);  
-  }		
-
   //Method use when user click the button. It adds one to the questonAnswered state and correctAnsweredCount	
   onCheckAnswer = event => {
 	  //Testing if the current user selected answer is equal to the correct answer for this question in the Redux store
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer){
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions  
-	  }
-	  
-	  this.props.onAddQuestionsAnswered();// add one to the count of answered questions
-
-	  //Update the score by dividing questionAnswer/count (the current amount of questions answer by the count of correct answers given, then waiting 5 seconds before updating score. The timeout give the async Redux actions time to update. If not use, the first variable, count, updates before the second variable and return a NAN. 
-	  setTimeout(() =>{
-	    this.getScore(), 5000
-	  });	
+	  }	
 
   }	
 
@@ -63,7 +46,6 @@ class CheckAnswerButton extends Component{
 
 /*Use Redux to get the current number of questions answered and current count of correct answers*/
 const mapStateToProps = state =>({
-	currentCount: state.count,
 	questionsAnswered: state.answered,
 	currentAnswer: state.userAnswer,
 	currentTest: state.test
@@ -71,9 +53,7 @@ const mapStateToProps = state =>({
 
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store
 const mapActionsToProps = {
-  onAddCorrectAnswer: addCorrectAnswer,
-  onAddQuestionsAnswered: addQuestionsAnswered,
-  onUpdateScore: updateScore
+  onAddCorrectAnswer: addCorrectAnswer
 };
 
 export default connect(mapStateToProps,mapActionsToProps)(CheckAnswerButton);
