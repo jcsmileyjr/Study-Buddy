@@ -12,17 +12,7 @@ const styles = StyleSheet.create({
 	
   buttonTextColor:{
 	color: "black" //button text is black
-  },
-	
-  wrongAnswers:{
-	color: "red",
-	textDecoration: "line-through"
-  },
-	
-  correctAnswer:{
-	  color: "green",
-	  fontSize: "1.2em"
-  }	
+  }
 });
 
 class CheckAnswerButton extends Component{

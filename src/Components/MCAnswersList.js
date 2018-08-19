@@ -25,9 +25,15 @@ const styles = StyleSheet.create({
 	  padding: "0px"
   },
 	
-  adjustLabel: {
-	  
-  }	
+  wrongAnswers:{
+	color: "red",
+	textDecoration: "line-through"
+  },
+	
+  correctAnswer:{
+	  color: "green",
+	  fontSize: "1.2em"
+  }		
 	
 });
 
@@ -99,11 +105,24 @@ displayAnswers(){
   const listOfAnswers = randomAnswers.map((answers, index) =>
 	<li key={index}>
 	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} />
-		<label className={css(styles.adjustLabel)}>{answers.answer}</label>				   
+		<label className={css(styles.adjustLabel, styles.correctAnswer, styles.wrongAnswers)}>{answers.answer}</label>				   
 	</li>									   
   );
 	
 	return listOfAnswers;
+}
+/*,this.isAnswerCorrect(answers) ? styles.correctAnswer: styles.wrongAnswers*/
+isAnswerCorrect(checkAnswer){
+  //list of questions and answers from the test state	
+  const arrayofAnswers = this.props.answerList;	
+  
+  //list of questions and answers from the test state	
+  const currentAnswer = this.getCurrentAnswer(arrayofAnswers);
+	
+  if(currentAnswer === checkAnswer.answer){
+	  return true;
+  }
+  
 }
 
 saveUserAnswer = event =>{
