@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   }
 });
 
-//Primary button used by the user to check if the selected answer is correct. When pressed the answer is saved to state and the correct/incorrect answers is shown using CSS. This button then is hidden and the Done button is shown. 
+//Primary button used by the user to check if the selected answer is correct. When pressed the answer is saved to state and the correct/incorrect answers is shown using CSS. This button then is hidden and the Done button is shown. The button is disabled if an answer is not selected. 
 class CheckAnswerButton extends Component{
 	
   //method to change the passFail attribute of each test's object to pass or fail. This will be use to change the CSS to green for correct and red for incorrect. 	
@@ -57,16 +57,11 @@ class CheckAnswerButton extends Component{
     return(
       <div className={`row ${css(styles.whiteSpaceAboveElement)}`}>
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-          <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.onCheckAnswer}>Check Answer</Button>
+          <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.onCheckAnswer} disabled={this.props.currentAnswer.userAnswer===""}>Check Answer</Button>
         </div>
       </div>
    );      //end of return
  }//end of render
-
-/*      To Do
-- add attribute to disable={} if player hasn't chosen an answer
-*/  
-
 }//end of CheckAnswerButton Class
 
 /*Use Redux to get the current number of questions answered, current count of correct answers, and the current array of questions and answers*/
