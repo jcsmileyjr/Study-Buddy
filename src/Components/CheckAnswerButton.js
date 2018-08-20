@@ -28,7 +28,7 @@ class CheckAnswerButton extends Component{
 			test.passFail = "fail";
 		}
 	  });
-	  console.dir(newTest);
+
 	  this.props.onUpdatePassFail(newTest);
   }	
 

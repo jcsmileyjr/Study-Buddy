@@ -46,7 +46,7 @@ getCurrentAnswer(answers){
   const location = 	(this.props.currentLocation).questionAnswered;
 	
   //current correct answer
-  const currentCorrectAnswer = answers[location].answer;
+  const currentCorrectAnswer = {"answer":answers[location].answer, "passFail":answers[location].passFail};
 
   return currentCorrectAnswer;	
 }
@@ -56,23 +56,23 @@ getRandomThreeAnswers(answers, correctAnswer){
 	
   const currentTestAnswers = [];	
 	
-  const currentAnswerArray = answers.map(function(x){return x.answer});
+  const currentAnswerArray = answers.map(function(x){return {"answer":x.answer, "passFail":x.passFail}});
   
   //randomly pick the first answer. Keep if it doesn’t match the currentCorrectAnswer, re-pick if it matches the currentCorrectAnswer
   var firstAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
   
-  while(correctAnswer===firstAnswer){
+  while(correctAnswer.answer===firstAnswer.answer){
      firstAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
   }
 
   //randomly pick the second answer and keep if it doesn’t match the correct answer and first answer
   var secondAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
-  while(correctAnswer===secondAnswer || firstAnswer === secondAnswer){
+  while(correctAnswer.answer===secondAnswer.answer || firstAnswer.answer === secondAnswer.answer){
      secondAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
   }
 
   //push all answers into the currentTestAnswers as an object with a second attribute as true or false
-  currentTestAnswers.push({"answer": correctAnswer, "correct":true}, {"answer": firstAnswer, "correct":false}, {"answer": secondAnswer, "correct":false});
+  currentTestAnswers.push(correctAnswer, firstAnswer, secondAnswer);
             
    //Shuffle the currentTestAnswers array
    var currentIndex = currentTestAnswers.length, temporayValue, randomIndex;
@@ -105,24 +105,23 @@ displayAnswers(){
   const listOfAnswers = randomAnswers.map((answers, index) =>
 	<li key={index}>
 	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} />
-		<label className={css(styles.adjustLabel, styles.correctAnswer, styles.wrongAnswers)}>{answers.answer}</label>				   
+		<label className={css( this.isAnswerPass(answers) && styles.correctAnswer, this.isAnswerFail(answers) && styles.wrongAnswers)}>{answers.answer}</label>				   
 	</li>									   
   );
 	
 	return listOfAnswers;
 }
 /*,this.isAnswerCorrect(answers) ? styles.correctAnswer: styles.wrongAnswers*/
-isAnswerCorrect(checkAnswer){
-  //list of questions and answers from the test state	
-  const arrayofAnswers = this.props.answerList;	
-  
-  //list of questions and answers from the test state	
-  const currentAnswer = this.getCurrentAnswer(arrayofAnswers);
-	
-  if(currentAnswer === checkAnswer.answer){
+isAnswerPass(checkAnswer){	
+  if(checkAnswer.passFail === "pass"){
 	  return true;
-  }
-  
+  }  
+}
+
+isAnswerFail(checkAnswer){	
+  if(checkAnswer.passFail === "fail"){
+	  return true;
+  }  
 }
 
 saveUserAnswer = event =>{
