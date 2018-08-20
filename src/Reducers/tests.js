@@ -1,6 +1,11 @@
 //reducer that holds the arrayOfAnswers as the initial state of questions and answers.
-export default function test(state = arrayOfAnswers, action){
-	return state;
+export default function test(state=arrayOfAnswers, {type, payload}){
+	switch(type){
+		case 'UPDATEANSWERPASSFAIL':
+			return payload;//When a user chosen a new answer, the state is updated with it.
+		default:
+			return state;
+	}
 }
 
 const arrayOfAnswers = [
