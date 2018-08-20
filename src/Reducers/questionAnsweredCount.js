@@ -3,7 +3,7 @@ export default function questionAnsweredCount(state={"questionAnswered": 0}, act
 	switch(action.type){
 		case 'ADDQUESTIONANSWERED':
 			return {
-				questionAnswered: state.questionAnswered + 1
+				questionAnswered: state.questionAnswered + 1 //adds one to the current count of questions answered.
 			};
 		default:
 			return state;

@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 	
 });
 
-
+//An permanent component that displays the current question from the test state. A book icon is use to repersent a link to a list of answers the user can view if need help.
 function Question({question, currentLocation}){
 	
 	//get the list of questions and answers from the test reducer
@@ -20,7 +20,7 @@ function Question({question, currentLocation}){
 	//get the current count of questions answered from the questionAnswered reducer
 	const location = {currentLocation}.currentLocation.questionAnswered;
 	
-	//determine the current question to be displayed
+	//determine the current question to be displayed based on the number of questions previously answered. 
 	const currentQuestion = listOfQuestions[location].question;
 
   return(

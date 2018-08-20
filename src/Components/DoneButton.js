@@ -2,8 +2,14 @@ import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
+
+//Redux action to update the questionsAnswered state by one
 import {addQuestionsAnswered} from '../Actions/questionAnsweredActions.js';
+
+//Redux action to update the score state by returning a new score
 import {updateScore} from '../Actions/scoreActions.js';
+
+//Redux action to update the showPassFail state to false
 import {showCSSFail} from '../Actions/hidePassFailActions.js';
  
 const styles = StyleSheet.create({
@@ -16,7 +22,7 @@ const styles = StyleSheet.create({
   }	     
 });
  
- 
+//Secondary button that is shown when the checkAnswerButton component is pressed. The DoneButton updates the score, get the next question, and turn off the passFail CSS of the answer list. 
 class DoneButton extends Component{
   //Update the score by dividing the count of correct answers given by the current amount of questions answer.
   getScore(){
@@ -31,7 +37,7 @@ class DoneButton extends Component{
 	  
 	  this.props.onAddQuestionsAnswered();// add one to the count of answered questions
 	  
-	  this.props.onHidePassAnswers();
+	  this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black)
 
 	  //Update the score by dividing questionAnswer/count (the current amount of questions answer by the count of correct answers given, then waiting 5 seconds before updating score. The timeout give the async Redux actions time to update. If not use, the first variable, count, updates before the second variable and return a NAN. 
 	  setTimeout(() =>{
@@ -49,12 +55,6 @@ class DoneButton extends Component{
        </div> 
       );      //end of return
    }//end of render
-/*      To Do
-- onclick={method to addScore}
-- onClick={method to go to next question}
-- write both methods
-- bind both methods to the constructor
-*/  
         
 }//end of DoneButton Class
  
@@ -64,7 +64,7 @@ const mapStateToProps = state =>({
 	questionsAnswered: state.answered
 });
 
-//map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store
+//map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store such as questions answer, current score, and current value of showPass.
 const mapActionsToProps = {
   onAddQuestionsAnswered: addQuestionsAnswered,
   onUpdateScore: updateScore,

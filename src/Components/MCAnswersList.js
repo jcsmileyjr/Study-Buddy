@@ -25,11 +25,13 @@ const styles = StyleSheet.create({
 	  padding: "0px"
   },
 	
+  /*change the answer in the label to show its the wrong answer*/	
   wrongAnswers:{
 	color: "red",
 	textDecoration: "line-through"
   },
 	
+  /*change the answer in the label to show its the correct answer*/	
   correctAnswer:{
 	  color: "green",
 	  fontSize: "1.2em"
@@ -37,6 +39,7 @@ const styles = StyleSheet.create({
 	
 });
 
+//Display three answers as radio input controls. One answer is the correct answer and the other two are random incorrect answers. The component use the current array of questions/answers and current count of questions answer to determine the correct answer. All styles are applied to each answer but are turn on and off based on the passFail attribute of each answer. 
 class MCAnswersList extends Component{
 	
 //function to get the current answer to be use in the displayAnswers()
@@ -54,8 +57,9 @@ getCurrentAnswer(answers){
 //function to randomize two answers plus the correct answer. You must give it a array of questions/answer and the correct answer
 getRandomThreeAnswers(answers, correctAnswer){
 	
-  const currentTestAnswers = [];	
+  const currentTestAnswers = [];//an empty array to be hold the correct answer and two random incorrect answers	
 	
+  //create an array of answer objects based on a array given as a parameter. This new array of objects have the given array answer and current passFail. 
   const currentAnswerArray = answers.map(function(x){return {"answer":x.answer, "passFail":x.passFail}});
   
   //randomly pick the first answer. Keep if it doesn’t match the currentCorrectAnswer, re-pick if it matches the currentCorrectAnswer
@@ -85,9 +89,6 @@ getRandomThreeAnswers(answers, correctAnswer){
      currentTestAnswers[currentIndex] = currentTestAnswers[randomIndex];
      currentTestAnswers[randomIndex] = temporayValue;
    }
-	
-	const hello = this.props.currentPassFail.passFail;
-	console.log(hello);
  	
   return currentTestAnswers;	
 }	
@@ -114,19 +115,22 @@ displayAnswers(){
 	
 	return listOfAnswers;
 }
-/*,this.isAnswerCorrect(answers) ? styles.correctAnswer: styles.wrongAnswers*/
+
+//function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
 isAnswerPass(checkAnswer){	
   if(checkAnswer.passFail === "pass"){
 	  return true;
   }  
 }
 
+//function used in the displayAnswers() to check if the current answer object passFail attribute is "fail" and return true. This will update the CSS tot the wrongAnswers style.
 isAnswerFail(checkAnswer){	
   if(checkAnswer.passFail === "fail"){
 	  return true;
   }  
 }
 
+//method that calls a Redux action to save the user selected anwer to the Redux state
 saveUserAnswer = event =>{
 	this.props.onUpdateUserAnswer(event.target.value);
 }
@@ -143,7 +147,6 @@ saveUserAnswer = event =>{
 }
 /*	Issues
 - Between break points 757 - 525 the radio options are skewer to the left
-- Within the onCheckAnswer(), check if the userAnswer is correct. If it is correct, update the correctAnswer state and questionAnswer state. If not, then just update questionAnswer state.
 */
 
 //map imported state of the tests and number of questions answered in the Redux store to local variables to be use by the component. 
