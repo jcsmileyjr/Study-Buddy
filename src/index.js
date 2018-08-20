@@ -13,6 +13,7 @@ import questionAnsweredCount from './Reducers/questionAnsweredCount.js';
 import updateScore from './Reducers/score.js';
 import test from './Reducers/tests.js';
 import currentUserAnswer from './Reducers/userAnswer.js';
+import currentPassFail from './Reducers/showPassFail.js';
 import registerServiceWorker from './registerServiceWorker';
 
 //Combined all the different Redux states that was imported into a one state that can be exported to any component via the store
@@ -21,7 +22,8 @@ const allReducers = combineReducers({
 	answered: questionAnsweredCount,
 	score: updateScore,
 	userAnswer: currentUserAnswer,
-	test: test
+	test: test,
+	passFail: currentPassFail
 });
 
 //The combined data of all the states from allReducers. 

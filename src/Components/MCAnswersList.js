@@ -85,6 +85,9 @@ getRandomThreeAnswers(answers, correctAnswer){
      currentTestAnswers[currentIndex] = currentTestAnswers[randomIndex];
      currentTestAnswers[randomIndex] = temporayValue;
    }
+	
+	const hello = this.props.currentPassFail.passFail;
+	console.log(hello);
  	
   return currentTestAnswers;	
 }	
@@ -105,7 +108,7 @@ displayAnswers(){
   const listOfAnswers = randomAnswers.map((answers, index) =>
 	<li key={index}>
 	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} />
-		<label className={css( this.isAnswerPass(answers) && styles.correctAnswer, this.isAnswerFail(answers) && styles.wrongAnswers)}>{answers.answer}</label>				   
+		<label className={css(this.props.currentPassFail.passFail && this.isAnswerPass(answers) && styles.correctAnswer, this.props.currentPassFail.passFail && this.isAnswerFail(answers) && styles.wrongAnswers)}>{answers.answer}</label>				   
 	</li>									   
   );
 	
@@ -146,7 +149,8 @@ saveUserAnswer = event =>{
 //map imported state of the tests and number of questions answered in the Redux store to local variables to be use by the component. 
 const mapStateToProps = state => ({
 	answerList: state.test,
-	currentLocation: state.answered	
+	currentLocation: state.answered,
+	currentPassFail: state.passFail
 });
 
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store

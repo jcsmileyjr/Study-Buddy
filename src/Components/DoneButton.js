@@ -4,6 +4,7 @@ import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import {addQuestionsAnswered} from '../Actions/questionAnsweredActions.js';
 import {updateScore} from '../Actions/scoreActions.js';
+import {showCSSFail} from '../Actions/hidePassFailActions.js';
  
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
@@ -29,6 +30,8 @@ class DoneButton extends Component{
   getNextQuestion = event => {
 	  
 	  this.props.onAddQuestionsAnswered();// add one to the count of answered questions
+	  
+	  this.props.onHidePassAnswers();
 
 	  //Update the score by dividing questionAnswer/count (the current amount of questions answer by the count of correct answers given, then waiting 5 seconds before updating score. The timeout give the async Redux actions time to update. If not use, the first variable, count, updates before the second variable and return a NAN. 
 	  setTimeout(() =>{
@@ -64,7 +67,8 @@ const mapStateToProps = state =>({
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store
 const mapActionsToProps = {
   onAddQuestionsAnswered: addQuestionsAnswered,
-  onUpdateScore: updateScore
+  onUpdateScore: updateScore,
+  onHidePassAnswers: showCSSFail
 };
 
 export default connect(mapStateToProps,mapActionsToProps)(DoneButton);

@@ -4,6 +4,7 @@ import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import {addCorrectAnswer} from '../Actions/correctCountActions.js';
 import {updatePassFail} from '../Actions/testActions.js';
+import {showCSSPass} from '../Actions/showPassFailActions.js';
 
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
@@ -30,6 +31,7 @@ class CheckAnswerButton extends Component{
 	  });
 
 	  this.props.onUpdatePassFail(newTest);
+	  this.props.onShowPassAnswers();
   }	
 
   //Method use when user click the button. It adds one to the  correct answer count if the user selected answer is correct
@@ -68,7 +70,8 @@ const mapStateToProps = state =>({
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store
 const mapActionsToProps = {
   onAddCorrectAnswer: addCorrectAnswer,
-  onUpdatePassFail: updatePassFail
+  onUpdatePassFail: updatePassFail,
+  onShowPassAnswers: showCSSPass
 };
 
 export default connect(mapStateToProps,mapActionsToProps)(CheckAnswerButton);
