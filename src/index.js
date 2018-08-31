@@ -18,14 +18,18 @@ import questionAnsweredCount from './Reducers/questionAnsweredCount.js';
 //Redux reducer to store the current score
 import updateScore from './Reducers/score.js';
 
-//Redux reducer to create to hold the current array of questions and answers
+//Redux reducer to hold the current array of questions and answers
 import test from './Reducers/tests.js';
 
-//Redux reducer to create to store the current user selected answer
+//Redux reducer to store the current user selected answer
 import currentUserAnswer from './Reducers/userAnswer.js';
 
-//Redux reducer to create to store a true or false condition used to show or hide correct or incorrect answers.
+//Redux reducer to create to a true or false condition used to show or hide correct or incorrect answers.
 import currentPassFail from './Reducers/showPassFail.js';
+
+//Redux reducer to create a true or false conditin used to show/hide the SucessPage and if the player moves to the next level of quizs
+import successPage from '.Reducers/successPageReducer.js';
+
 import registerServiceWorker from './registerServiceWorker';
 
 //Combined all the different Redux states that was imported into a one state that can be exported to any component via the store
@@ -36,6 +40,7 @@ const allReducers = combineReducers({
 	userAnswer: currentUserAnswer, //current user selected answer
 	test: test, //array of questions and answers
 	passFail: currentPassFail //true or false to show/hide CSS of answers
+    successPage: successPage //true or false to show/hide Success page and which level of quizs the player is on
 });
 
 //The combined data of all the states from allReducers. 
