@@ -13,6 +13,10 @@ import {updateScore} from '../Actions/scoreActions.js';
 import {showCSSFail} from '../Actions/hidePassFailActions.js';
 
 import {clearUserAnswer} from '../Actions/clearUserAnswerActions.js';//import action to reset the userAnswer state
+
+import {enterSuccessPage} from '../Actions/showSuccesPageAction.js';//import action to change the SuccessPage state's showSuccessPage state to true therefore showing it.
+
+import {nextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
  
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
@@ -46,7 +50,14 @@ class DoneButton extends Component{
 	    this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black)
 	  
 	    this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component. 		  
-	  });	
+	  });
+      
+      let numberOfQuestions = this.props.currentTest.length();
+      
+      if(this.props.questionsAnswered.questionAnswered >= numberOfQuestions){
+          this.props.onShowSuccessPage();
+          this.props.onNextLevel();
+      }
 
   }		
         
@@ -62,18 +73,21 @@ class DoneButton extends Component{
         
 }//end of DoneButton Class
  
-/*Use Redux to get the current number of questions answered and current count of correct answers*/
+/*Use Redux to get the current number of questions answered, current count of correct answers, and length of the test*/
 const mapStateToProps = state =>({
 	currentCount: state.count,
-	questionsAnswered: state.answered
+	questionsAnswered: state.answered,
+    currentTest: state.test
 });
 
-//map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store such as questions answer, current score, user selected answer, and current value of showPass.
+//map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store such as questions answer, current score, user selected answer, whether to show the SuccessPage, move the player to the next level, and current value of showPass.
 const mapActionsToProps = {
   onAddQuestionsAnswered: addQuestionsAnswered,
   onUpdateScore: updateScore,
   onHidePassAnswers: showCSSFail,
-  onClearUserAnswer: clearUserAnswer
+  onClearUserAnswer: clearUserAnswer,
+  onShowSuccessPage :enterSuccessPage,
+  onNextLevel: nextLevel
 };
 
 export default connect(mapStateToProps,mapActionsToProps)(DoneButton);
