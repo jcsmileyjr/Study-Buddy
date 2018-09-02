@@ -14,9 +14,9 @@ import {showCSSFail} from '../Actions/hidePassFailActions.js';
 
 import {clearUserAnswer} from '../Actions/clearUserAnswerActions.js';//import action to reset the userAnswer state
 
-import {enterSuccessPage} from '../Actions/showSuccesPageAction.js';//import action to change the SuccessPage state's showSuccessPage state to true therefore showing it.
+import {successPageTrue} from '../Actions/showSuccessPageAction.js';//import action to change the SuccessPage state's showSuccessPage state to true therefore showing it.
 
-import {nextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
+import {goToNextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
  
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
@@ -86,8 +86,8 @@ const mapActionsToProps = {
   onUpdateScore: updateScore,
   onHidePassAnswers: showCSSFail,
   onClearUserAnswer: clearUserAnswer,
-  onShowSuccessPage :enterSuccessPage,
-  onNextLevel: nextLevel
+  onShowSuccessPage :successPageTrue,
+  onNextLevel: goToNextLevel
 };
 
 export default connect(mapStateToProps,mapActionsToProps)(DoneButton);
