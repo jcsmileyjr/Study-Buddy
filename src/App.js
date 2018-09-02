@@ -8,6 +8,7 @@ import MCAnswersList from './Components/MCAnswersList.js';
 import CheckAnswerButton from './Components/CheckAnswerButton.js';
 import DoneButton from './Components/DoneButton.js';
 import Motivation from './Components/Motivation.js';
+import SuccessPage from './Components/SuccessPage.js';
 
 const styles = StyleSheet.create({
   //create stripe grey lines throughout the app background as long as there is content	

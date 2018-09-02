@@ -52,7 +52,7 @@ class DoneButton extends Component{
 	    this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component. 		  
 	  });
       
-      let numberOfQuestions = this.props.currentTest.length();
+      let numberOfQuestions = this.props.currentTest.length;
       
       if(this.props.questionsAnswered.questionAnswered >= numberOfQuestions){
           this.props.onShowSuccessPage();
