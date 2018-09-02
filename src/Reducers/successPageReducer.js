@@ -6,8 +6,9 @@ export default function successPage(state={"showSuccessPage": false, "currentLev
         case 'HIDESUCCESSPAGE':
             showSuccessPage: false //Update the state to false and hide the correct and incorrect answers.
         case 'NEXTLEVEL':
-            return currentL
-            currentLevel: state.currentLevel + 1 //adds one to the state
+            return {
+                currentLevel: state.currentLevel + 1 //adds one to the state
+            }
 		default:
 			return state;
 	}
