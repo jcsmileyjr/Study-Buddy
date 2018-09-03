@@ -38,12 +38,25 @@ function MulitpleChoiceLevel1 (props){
   );    
 }
 
+function TrueFalseLevel2(props){
+  return(
+    <div className= {`col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-xl-6 col-xl-offset-3 ${css(styles.appBackground)}`}>
+	  <Nav />
+	  <Question />
+      <p>New Level 2 Quiz</p>
+	  {!props.currentPassFail && <CheckAnswerButton />}
+	  {props.currentPassFail && <DoneButton />}
+	  <Motivation />
+	</div>
+  );
+}
+
 
 class App extends Component {
   render() {	  
     return (
       <div className="container-fliud">
-        {!this.props.currentSuccessPageStatus.showSuccessPage &&<MulitpleChoiceLevel1 currentPassFail = {this.props.currentPassFail.passFail} />}        
+        {!this.props.currentSuccessPageStatus.showSuccessPage &&<TrueFalseLevel2 currentPassFail = {this.props.currentPassFail.passFail} />}        
         {this.props.currentSuccessPageStatus.showSuccessPage && <SuccessPage />}
       </div>
     );
