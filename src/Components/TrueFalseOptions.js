@@ -115,7 +115,7 @@ displayAnswers(){
 	</li>									   
   );
   */	
-	return (<label>{displayedRandomAnswer.answer}</label>)
+	return (<h4>{displayedRandomAnswer.answer}</h4>)
 }
 
 //function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
@@ -139,10 +139,18 @@ saveUserAnswer = event =>{
 
   render(){
 	  return(
-		<div className={`row ${css(styles.indentAnswerOptions)}`}>
-		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 text-center">
+		<div className="row text-center">
+		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
 			{this.displayAnswers()}
-		  </div>		
+		  </div>
+          <div className="col-xs-12">
+            <input type="radio" name="choice" value={true} /> 
+            <label> True </label>
+          </div>
+          <div className="col-xs-12">
+            <input type="radio" name="choice" value={false} />
+            <label> False </label>
+          </div>
 		</div>  
 	  );
   }
