@@ -5,6 +5,13 @@ import {Button} from 'react-bootstrap';
 
 import {successPageFalse} from '../Actions/hideSuccessPageAction.js';//import action to change the SuccessPage state's showSuccessPage state to false therefore hiding it.
 
+
+//Redux action to reset the questionsAnswered state to zero
+import {resetQuestionsAnswered} from '../Actions/resetquestionAnsweredActions.js';
+
+//Redux action to reset the count state to zero
+import {resetCorrectAnswer} from '../Actions/resetCountActions.js';
+
 //A component shown when the user completes a quiz. A button is press to preceed to the next quiz
 class SuccessPage extends Component{
   /*
@@ -26,7 +33,9 @@ class SuccessPage extends Component{
  }        
     
   onCloseSuccessPage = () => {
-    this.props.onClosePage();  
+    this.props.onClosePage();
+    this.props.onresetQuestionsAnswered();
+    this.props.onresetCorrectAnswer();      
   }      
   render(){  
       return(
@@ -48,7 +57,9 @@ const mapStateToProps = state =>({
 });
 
 const mapActionsToProps = {
-    onClosePage: successPageFalse
+    onClosePage: successPageFalse,
+    onresetQuestionsAnswered: resetQuestionsAnswered,
+    onresetCorrectAnswer: resetCorrectAnswer    
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SuccessPage);

@@ -12,7 +12,7 @@ export default function successPage(state={"showSuccessPage": false, "currentLev
         case 'NEXTLEVEL':
             return {
                 currentLevel: state.currentLevel + 1 //adds one to the state
-            }
+            };
 		default:
 			return state;
 	}
