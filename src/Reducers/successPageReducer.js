@@ -3,14 +3,17 @@ export default function successPage(state={"showSuccessPage": false, "currentLev
 	switch(type){
 		case 'SHOWSUCCESSPAGE':
 			return {
-				showSuccessPage: true //Update the state to true and show the success component.
+				showSuccessPage: true, //Update the state to true and show the success component.
+                currentLevel: state.currentLevel
 			};            
         case 'HIDESUCCESSPAGE':
 			return {
-				showSuccessPage: false //Update the state to false and hide the correct and incorrect answers.
+				showSuccessPage: false, //Update the state to false and hide the correct and incorrect answers.
+                currentLevel: state.currentLevel
 			};
         case 'NEXTLEVEL':
             return {
+                showSuccessPage: state.showSuccessPage,
                 currentLevel: state.currentLevel + 1 //adds one to the state
             };
 		default:
