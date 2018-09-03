@@ -6,6 +6,12 @@ import {connect} from 'react-redux';
 //Redux action to update the questionsAnswered state by one
 import {addQuestionsAnswered} from '../Actions/questionAnsweredActions.js';
 
+//Redux action to reset the questionsAnswered state to zero
+import {resetQuestionsAnswered} from '../Actions/resetquestionAnsweredActions.js';
+
+//Redux action to reset the count state to zero
+import {resetCorrectAnswer} from '../Actions/resetCountActions.js';
+
 //Redux action to update the score state by returning a new score
 import {updateScore} from '../Actions/scoreActions.js';
 
@@ -40,8 +46,19 @@ class DoneButton extends Component{
 	
   //Method to send Redux actions to move the user to the next question, disable the CheckAnswersButton, and update the score. 
   getNextQuestion = event => {
+      
+      let numberOfQuestions = this.props.currentTest.length;
+      
+      if(this.props.questionsAnswered.questionAnswered === (numberOfQuestions -1) ){
+          this.props.onShowSuccessPage();
+          //this.props.onNextLevel();
+          this.props.onresetQuestionsAnswered();
+          this.props.onresetCorrectAnswer();
+      }else {
+	      this.props.onAddQuestionsAnswered();// add one to the count of answered questions          
+      }      
 	  
-	  this.props.onAddQuestionsAnswered();// add one to the count of answered questions
+
 
 	  //Update the score by dividing questionAnswer/count (the current amount of questions answer by the count of correct answers given, then waiting 5 seconds before updating score. The timeout give the async Redux actions time to update. If not use, the first variable, count, updates before the second variable and return a NAN. 
 	  setTimeout(() =>{
@@ -49,15 +66,12 @@ class DoneButton extends Component{
 	  
 	    this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black)
 	  
-	    this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component. 		  
+	    this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component. 
+          
+
+      
 	  });
       
-      let numberOfQuestions = this.props.currentTest.length;
-      
-      if(this.props.questionsAnswered.questionAnswered >= numberOfQuestions){
-          this.props.onShowSuccessPage();
-          this.props.onNextLevel();
-      }
 
   }		
         
@@ -83,6 +97,8 @@ const mapStateToProps = state =>({
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store such as questions answer, current score, user selected answer, whether to show the SuccessPage, move the player to the next level, and current value of showPass.
 const mapActionsToProps = {
   onAddQuestionsAnswered: addQuestionsAnswered,
+  onresetQuestionsAnswered: resetQuestionsAnswered,
+  onresetCorrectAnswer: resetCorrectAnswer,
   onUpdateScore: updateScore,
   onHidePassAnswers: showCSSFail,
   onClearUserAnswer: clearUserAnswer,

@@ -32,10 +32,10 @@ class SuccessPage extends Component{
       return(
         <div className="row">
           <div className="col-xs-12 text-center">
-            <h1>{this.displayMessage}</h1>
+            <h1>{this.displayMessage()}</h1>
           </div>
           <div className="col-xs-12 text-center">
-            <Button onClick={this.onCloseSuccessPage} bsStyle="success">Done</Button>        
+            <Button onClick={this.onCloseSuccessPage} bsStyle="success">Start Quiz</Button>        
           </div>
         </div>  
       );	

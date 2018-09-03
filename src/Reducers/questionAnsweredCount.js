@@ -5,6 +5,10 @@ export default function questionAnsweredCount(state={"questionAnswered": 0}, act
 			return {
 				questionAnswered: state.questionAnswered + 1 //adds one to the current count of questions answered.
 			};
+		case 'RESETQUESTIONANSWERED':
+			return {
+				questionAnswered: state.questionAnswered = 0 //reset the current count of questions answered.
+			};            
 		default:
 			return state;
 	}
