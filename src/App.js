@@ -9,6 +9,7 @@ import CheckAnswerButton from './Components/CheckAnswerButton.js';
 import DoneButton from './Components/DoneButton.js';
 import Motivation from './Components/Motivation.js';
 import SuccessPage from './Components/SuccessPage.js';
+import TrueFalseOptions from './Components/TrueFalseOptions.js';
 
 const styles = StyleSheet.create({
   //create stripe grey lines throughout the app background as long as there is content	
@@ -43,7 +44,7 @@ function TrueFalseLevel2(props){
     <div className= {`col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-xl-6 col-xl-offset-3 ${css(styles.appBackground)}`}>
 	  <Nav />
 	  <Question />
-      <p>New Level 2 Quiz</p>
+      <TrueFalseOptions />
 	  {!props.currentPassFail && <CheckAnswerButton />}
 	  {props.currentPassFail && <DoneButton />}
 	  <Motivation />
