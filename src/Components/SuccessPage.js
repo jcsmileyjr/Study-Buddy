@@ -1,5 +1,4 @@
 import React, {Component}  from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 

@@ -46,10 +46,24 @@ class CheckAnswerButton extends Component{
 
   //Method use when user click the button. It adds one to the  correct answer count if the user selected answer is correct
   onCheckAnswer = event => {
+      
+    if(this.props.currentQuizLevel === 1){
 	  //Test if the current user selected answer is equal to the correct answer for this question in the Redux store
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer){
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions  
-	  }	
+	  }
+    }
+      
+    if(this.props.currentQuizLevel ===2){
+      const currentTrueFalseChoice = this.props.currentTrueFalseUserAnswer.truefalse;
+	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && this.props.currentTrueFalseUserAnswer.trueFalse === true){
+		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions           
+	  }
+	  if(this.props.currentAnswer.userAnswer !== this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && this.props.currentTrueFalseUserAnswer.trueFalse === false){
+		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions           
+	  }        
+    }  
+    
 	  this.showCorrectAnswer();//send an Redux action to return true to the Redux store, thus showing the CSS (green/correct and red/incorrect) of the displayed answers.
   }	
 
@@ -68,7 +82,9 @@ class CheckAnswerButton extends Component{
 const mapStateToProps = state =>({
 	questionsAnswered: state.answered,
 	currentAnswer: state.userAnswer,
-	currentTest: state.test
+	currentTest: state.test,
+    currentQuizLevel: state.successPage.currentLevel,
+    currentTrueFalseUserAnswer: state.trueFalseAnswer
 });
 
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store such as correct answer count, updated test (array of questions and answers), and the showPassFail state (true/false).

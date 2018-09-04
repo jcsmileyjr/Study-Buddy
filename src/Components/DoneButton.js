@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
  
 //Secondary button that is shown when the checkAnswerButton component is pressed. The DoneButton updates the score, get the next question, and turn off the passFail CSS of the answer list. 
 class DoneButton extends Component{
+
   //Update the score by dividing the count of correct answers given by the current amount of questions answer.
   getScore(){
     let newScore = (this.props.currentCount.count/this.props.questionsAnswered.questionAnswered)*100;
@@ -48,7 +49,7 @@ class DoneButton extends Component{
           this.props.onNextLevel();
       }else {
 	      this.props.onAddQuestionsAnswered();// add one to the count of answered questions          
-      }      
+            
 	  
 
 
@@ -64,7 +65,7 @@ class DoneButton extends Component{
       
 	  });
       
-
+      }
   }		
         
   render(){

@@ -57,7 +57,8 @@ class App extends Component {
   render() {	  
     return (
       <div className="container-fliud">
-        {!this.props.currentSuccessPageStatus.showSuccessPage &&<TrueFalseLevel2 currentPassFail = {this.props.currentPassFail.passFail} />}        
+        {!this.props.currentSuccessPageStatus.showSuccessPage && this.props.currentQuizLevel ===1 && <MulitpleChoiceLevel1 currentPassFail = {this.props.currentPassFail.passFail} />}
+        {!this.props.currentSuccessPageStatus.showSuccessPage && this.props.currentQuizLevel ===2 && <TrueFalseLevel2 currentPassFail = {this.props.currentPassFail.passFail} />}        
         {this.props.currentSuccessPageStatus.showSuccessPage && <SuccessPage />}
       </div>
     );
@@ -67,7 +68,8 @@ class App extends Component {
 //map imported state of the showPassFail to show/hide the CheckAnswerButton and DoneButton components.
 const mapStateToProps = state => ({
 	currentPassFail: state.passFail,
-    currentSuccessPageStatus: state.successPage
+    currentQuizLevel: state.successPage.currentLevel,
+    currentSuccessPageStatus: state.successPage,
 });
 
 export default connect(mapStateToProps)(App);
