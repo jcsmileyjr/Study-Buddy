@@ -44,7 +44,16 @@ const styles = StyleSheet.create({
 });
 
 //?????????????????????????????? 
-class TrueFalseOptions extends Component{   
+class TrueFalseOptions extends Component{
+  constructor(props){
+    super(props);
+    this.state = {newRandomAnswer:"Loading"}
+  }
+    
+  componentDidMount(){
+    let answerToBeShown = this.displayAnswers();
+    this.setState({newRandomAnswer:answerToBeShown});
+  }    
 	
 //function to get the current answer to be use in the displayAnswers()
 getCurrentAnswer(answers){
@@ -121,7 +130,7 @@ displayAnswers(){
 	</li>									   
   );
   */	
-	return (<h4>{displayedRandomAnswer.answer}</h4>)
+	return displayedRandomAnswer.answer;
 }
 
 //function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
@@ -152,7 +161,7 @@ saveFalseAnswer = () =>{
 	  return(
 		<div className="row text-center">
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-			{this.displayAnswers()}
+			{this.state.newRandomAnswer}
 		  </div>
           <div className="col-xs-12">
             <input type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} /> 
