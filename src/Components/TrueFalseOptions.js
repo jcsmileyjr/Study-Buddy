@@ -114,7 +114,6 @@ displayAnswers(){
     
   this.props.onUpdateUserAnswer(displayedRandomAnswer.answer);    
 	
-	return displayedRandomAnswer.answer;
 	
 	return <p>{displayedRandomAnswer.answer}</p>;
 }
