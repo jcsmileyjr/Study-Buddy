@@ -45,15 +45,7 @@ const styles = StyleSheet.create({
 
 //?????????????????????????????? 
 class TrueFalseOptions extends Component{
-  constructor(props){
-    super(props);
-    this.state = {newRandomAnswer:"Loading"}
-  }
-    
-  componentDidMount(){
-    let answerToBeShown = this.displayAnswers();
-    this.setState({newRandomAnswer:answerToBeShown});
-  }    
+   
 	
 //function to get the current answer to be use in the displayAnswers()
 getCurrentAnswer(answers){
@@ -122,15 +114,9 @@ displayAnswers(){
     
   this.props.onUpdateUserAnswer(displayedRandomAnswer.answer);    
 	
-  /*create a array of options as <li> to be displayed as answers. When the user select answer, the value is updated to the userAnswer state	
-  const listOfAnswers = randomAnswers.map((answers, index) =>
-	<li key={index}>
-	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} />
-		<label className={css(this.props.currentPassFail.passFail && this.isAnswerPass(answers) && styles.correctAnswer, this.props.currentPassFail.passFail && this.isAnswerFail(answers) && styles.wrongAnswers)}>{answers.answer}</label>				   
-	</li>									   
-  );
-  */	
 	return displayedRandomAnswer.answer;
+	
+	return <p>{displayedRandomAnswer.answer}</p>;
 }
 
 //function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
@@ -161,7 +147,7 @@ saveFalseAnswer = () =>{
 	  return(
 		<div className="row text-center">
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-			{this.state.newRandomAnswer}
+			{this.displayAnswers()}
 		  </div>
           <div className="col-xs-12">
             <input type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} /> 

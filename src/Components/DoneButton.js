@@ -59,10 +59,9 @@ class DoneButton extends Component{
 	  
 	    this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black)
 	  
-	    this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component. 
-          
-
-      
+        if(this.props.currentQuizLevel !== 2){
+            this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component.
+        }  
 	  });
       
       }
@@ -84,6 +83,7 @@ class DoneButton extends Component{
 const mapStateToProps = state =>({
 	currentCount: state.count,
 	questionsAnswered: state.answered,
+    currentQuizLevel: state.successPage.currentLevel,
     currentTest: state.test
 });
 

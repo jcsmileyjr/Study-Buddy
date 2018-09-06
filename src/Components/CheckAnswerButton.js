@@ -56,11 +56,14 @@ class CheckAnswerButton extends Component{
       
     if(this.props.currentQuizLevel ===2){
       const currentTrueFalseChoice = this.props.currentTrueFalseUserAnswer.truefalse;
+        console.log(this.props.currentAnswer.userAnswer + " is the userAnswer");
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && this.props.currentTrueFalseUserAnswer.trueFalse === true){
-		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions           
+		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions 
+          console.log("tested true");
 	  }
 	  if(this.props.currentAnswer.userAnswer !== this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && this.props.currentTrueFalseUserAnswer.trueFalse === false){
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions           
+          console.log("tested false");
 	  }        
     }  
     
