@@ -46,6 +46,10 @@ const styles = StyleSheet.create({
 //?????????????????????????????? 
 class TrueFalseOptions extends Component{
    
+componentDidMount(){
+let sorrow = this.displayAnswers();    
+this.props.onUpdateUserAnswer(sorrow);
+}    
 	
 //function to get the current answer to be use in the displayAnswers()
 getCurrentAnswer(answers){
@@ -110,12 +114,9 @@ displayAnswers(){
   //get a random two incorrect answers and the correct answered to be displayed	
   const randomAnswers = this.getRandomThreeAnswers(arrayofAnswers, currentAnswer);   
     
-  const displayedRandomAnswer = randomAnswers[Math.floor(Math.random() * randomAnswers.length)];
-    
-  this.props.onUpdateUserAnswer(displayedRandomAnswer.answer);    
+  const displayedRandomAnswer = randomAnswers[Math.floor(Math.random() * randomAnswers.length)];	
 	
-	
-	return <p>{displayedRandomAnswer.answer}</p>;
+  return displayedRandomAnswer.answer;
 }
 
 //function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
