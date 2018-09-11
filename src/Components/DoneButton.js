@@ -45,6 +45,7 @@ class DoneButton extends Component{
       let numberOfQuestions = this.props.currentTest.length;
       
       if(this.props.questionsAnswered.questionAnswered === (numberOfQuestions -1) ){
+          this.props.onAddQuestionsAnswered();// add one to the count of answered questions 
           this.props.onShowSuccessPage();
           this.props.onNextLevel();
       }else {
