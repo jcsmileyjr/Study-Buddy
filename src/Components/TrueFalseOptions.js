@@ -9,6 +9,8 @@ import {userChooseFalse} from '../Actions/userFalseAnswerActions.js';//import ac
 
 import {userChooseTrue} from '../Actions/userTrueAnswerActions.js';//import action to update the user's choice to the TrueFalseAnswer state
 
+import {updateQuizAnswer} from '../Actions/updateTrueFalseQuizAnswer.js';//import action to update the current true or false answer to the state
+
 const styles = StyleSheet.create({
   //add whitespace between the radio button and the answer	
   indentAnswerOptions:{
@@ -48,11 +50,11 @@ const styles = StyleSheet.create({
 class TrueFalseOptions extends Component{
    
 componentDidMount(){
-let sorrow = this.displayAnswers();    
-this.props.onUpdateUserAnswer(sorrow);
+let startTrueFalseQuizAnswer = this.displayAnswers();//get random answer to be displayed    
+this.props.onUpdateTrueFalseQuizAnswer(startTrueFalseQuizAnswer);// updated the state so its value can be displayed below
 } 
 	
-//function to returns a random answer to be shown to the user for the user to decide if its true or false
+//function to returns a random answer to be shown to the user for the user to decide if its true or false. Only ran when the app starts. 
 displayAnswers(){
 	
   //list of questions and answers from the test state	
@@ -89,18 +91,20 @@ isAnswerFail(checkAnswer){
 //method that calls a Redux action to save the user selected anwer to the Redux state
 saveTrueAnswer = () =>{
 	this.props.onUpdateTrueAnswer();
+    this.props.onUpdateUserAnswer(this.props.currentQuizAnswer);
 }
 
 //method that calls a Redux action to save the user selected anwer to the Redux state
 saveFalseAnswer = () =>{
 	this.props.onUpdateFalseAnswer();
+    this.props.onUpdateUserAnswer(this.props.currentQuizAnswer);
 }
 
   render(){
 	  return(
 		<div className="row text-center">
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-			{this.displayAnswers()}
+			{this.props.currentQuizAnswer}
 		  </div>
           <div className="col-xs-12">
             <input type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} /> 
@@ -119,14 +123,16 @@ saveFalseAnswer = () =>{
 const mapStateToProps = state => ({
 	answerList: state.test,
 	currentLocation: state.answered,
-	currentPassFail: state.passFail
+	currentPassFail: state.passFail,
+    currentQuizAnswer: state.trueFalseAnswer.trueFalseQuizAnswer
 });
 
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store
 const mapActionsToProps = {
   onUpdateUserAnswer: getUserAnswer,    
   onUpdateTrueAnswer: userChooseTrue,
-  onUpdateFalseAnswer: userChooseFalse     
+  onUpdateFalseAnswer: userChooseFalse,
+  onUpdateTrueFalseQuizAnswer: updateQuizAnswer
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(TrueFalseOptions);
