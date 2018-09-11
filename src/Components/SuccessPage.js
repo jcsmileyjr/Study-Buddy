@@ -3,7 +3,8 @@ import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 
-import {successPageFalse} from '../Actions/hideSuccessPageAction.js';//import action to change the SuccessPage state's showSuccessPage state to false therefore hiding it.
+//import action to change the SuccessPage state's showSuccessPage state to false therefore hiding it.
+import {successPageFalse} from '../Actions/hideSuccessPageAction.js';
 
 
 //Redux action to reset the questionsAnswered state to zero
@@ -11,6 +12,9 @@ import {resetQuestionsAnswered} from '../Actions/resetquestionAnsweredActions.js
 
 //Redux action to reset the count state to zero
 import {resetCorrectAnswer} from '../Actions/resetCountActions.js';
+
+//import action to reset the Score state to zero
+import {clearScore} from '../Actions/clearScoreActions.js';
 
 //A component shown when the user completes a quiz. A button is press to preceed to the next quiz
 class SuccessPage extends Component{
@@ -40,7 +44,8 @@ class SuccessPage extends Component{
   onCloseSuccessPage = () => {
     this.props.onClosePage();
     this.props.onresetQuestionsAnswered();
-    this.props.onresetCorrectAnswer();      
+    this.props.onresetCorrectAnswer(); 
+    this.props.onresetScore();  
   }      
   render(){  
       return(
@@ -65,7 +70,8 @@ const mapStateToProps = state =>({
 const mapActionsToProps = {
     onClosePage: successPageFalse,
     onresetQuestionsAnswered: resetQuestionsAnswered,
-    onresetCorrectAnswer: resetCorrectAnswer    
+    onresetCorrectAnswer: resetCorrectAnswer,
+    onresetScore: clearScore
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SuccessPage);
