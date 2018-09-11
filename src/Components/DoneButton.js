@@ -39,15 +39,17 @@ class DoneButton extends Component{
 	this.props.onUpdateScore(newScore);  
   }
 	
-  //Method to send Redux actions to move the user to the next question, disable the CheckAnswersButton, and update the score. 
+  //Method to send Redux actions to move the user to the next question, update the score, and reset the answering process (CheckAnswerButton and Red/Green CSS). If its the last question then the SuccessPage is shown, the quiz level is updated by one, and the current test CSS is return to false. 
   getNextQuestion = event => {
       
+      // Get the current length or number of questions of the current test
       let numberOfQuestions = this.props.currentTest.length;
       
       if(this.props.questionsAnswered.questionAnswered === (numberOfQuestions -1) ){
           this.props.onAddQuestionsAnswered();// add one to the count of answered questions 
-          this.props.onShowSuccessPage();
-          this.props.onNextLevel();
+          this.props.onShowSuccessPage();// show the SuccessPage component by updating state to true
+          this.props.onNextLevel(); // go to the next quiz level by updating the state by one
+	      this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black) and show the CheckAnswerButton (hide the DoneButton) component.          
       }else {
 	      this.props.onAddQuestionsAnswered();// add one to the count of answered questions          
             
@@ -58,7 +60,7 @@ class DoneButton extends Component{
 	  setTimeout(() =>{
 	    this.getScore(), 5000		  
 	  
-	    this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black)
+	    this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black) and show the CheckAnswerButton (hide the DoneButton) component.
 	  
         if(this.props.currentQuizLevel !== 2){
             this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component.
