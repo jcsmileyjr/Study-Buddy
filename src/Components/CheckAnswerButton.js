@@ -58,12 +58,12 @@ class CheckAnswerButton extends Component{
       const currentTrueFalseChoice = this.props.currentTrueFalseUserAnswer.truefalse; //get the user true or false choice
        
       //Compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count.     
-	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice == true){
+	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === true){
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions 
 	  }
     
       //Compare the random answer given to the correct answer for the current problem. If the random answer incorrect and the user choose false, then one is added to the correct answer count.      
-	  if(this.props.currentAnswer.userAnswer !== this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice == false){
+	  if(this.props.currentAnswer.userAnswer !== this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === false){
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions           
 
 	  }        
