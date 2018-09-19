@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
+import * as RandomAnswers from '../SharedFunctions/RandomAnswers.js';
 
 import {getUserAnswer} from '../Actions/userAnswerActions.js';//import action to update the user's choice to the userAnswer state
 
@@ -42,68 +43,20 @@ const styles = StyleSheet.create({
 //Display three answers as radio input controls. One answer is the correct answer and the other two are random incorrect answers. The component use the current array of questions/answers and current count of questions answer to determine the correct answer. All styles are applied to each answer but are turn on and off based on the passFail attribute of each answer. 
 class MCAnswersList extends Component{
 	
-//function to get the current answer to be use in the displayAnswers()
-getCurrentAnswer(answers){
-	
-  //current index of the test based off of how mnay questions the user has answered. This information is from the currentAnsweredCount state	
-  const location = 	(this.props.currentLocation).questionAnswered;
-	
-  //current correct answer
-  const currentCorrectAnswer = {"answer":answers[location].answer, "passFail":answers[location].passFail};
-
-  return currentCorrectAnswer;	
-}
-
-//function to randomize two answers plus the correct answer. You must give it a array of questions/answer and the correct answer
-getRandomThreeAnswers(answers, correctAnswer){
-	
-  const currentTestAnswers = [];//an empty array to be hold the correct answer and two random incorrect answers	
-	
-  //create an array of answer objects based on a array given as a parameter. This new array of objects have the given array answer and current passFail. 
-  const currentAnswerArray = answers.map(function(x){return {"answer":x.answer, "passFail":x.passFail}});
-  
-  //randomly pick the first answer. Keep if it doesn’t match the currentCorrectAnswer, re-pick if it matches the currentCorrectAnswer
-  var firstAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
-  
-  while(correctAnswer.answer===firstAnswer.answer){
-     firstAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
-  }
-
-  //randomly pick the second answer and keep if it doesn’t match the correct answer and first answer
-  var secondAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
-  while(correctAnswer.answer===secondAnswer.answer || firstAnswer.answer === secondAnswer.answer){
-     secondAnswer = currentAnswerArray[Math.floor(Math.random() * currentAnswerArray.length)];
-  }
-
-  //push all answers into the currentTestAnswers as an object with a second attribute as true or false
-  currentTestAnswers.push(correctAnswer, firstAnswer, secondAnswer);
-            
-   //Shuffle the currentTestAnswers array
-   var currentIndex = currentTestAnswers.length, temporayValue, randomIndex;
-            
-   while(0 !== currentIndex){
-     randomIndex = Math.floor(Math.random() * currentIndex);
-     currentIndex -= 1;
-                
-     temporayValue = currentTestAnswers[currentIndex];
-     currentTestAnswers[currentIndex] = currentTestAnswers[randomIndex];
-     currentTestAnswers[randomIndex] = temporayValue;
-   }
- 	
-  return currentTestAnswers;	
-}	
-	
 //function to create an array of options to be displayed
 displayAnswers(){
 	
   //list of questions and answers from the test state	
-  const arrayofAnswers = this.props.answerList;	
+  const arrayofAnswers = this.props.answerList;
+    
+  //current index of the test based off of how many questions the user has answered. This information is from the currentAnsweredCount state	
+  const location = 	(this.props.currentLocation).questionAnswered;     
   
-  //list of questions and answers from the test state	
-  const currentAnswer = this.getCurrentAnswer(arrayofAnswers);	
+  //get the current answer of the current test based on location using a function from the imported RandomAnswers file.	
+  const currentAnswer = RandomAnswers.getCurrentAnswer(location, arrayofAnswers);
 	
-  //get a random two incorrect answers and the correct answered to be displayed	
-  const randomAnswers = this.getRandomThreeAnswers(arrayofAnswers, currentAnswer);	
+  //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
+  const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);	
 	
   //create a array of options as <li> to be displayed as answers. When the user select answer, the value is updated to the userAnswer state	
   const listOfAnswers = randomAnswers.map((answers, index) =>

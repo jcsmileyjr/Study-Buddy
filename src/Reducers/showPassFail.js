@@ -7,7 +7,7 @@ export default function showPassFail(state={"passFail": false}, action){
 			};
 		case 'HIDEPASSFAIL':
 			return {
-				passFail: false //Reset the state to false and hide teh correct and incorrect answers.
+				passFail: false //Reset the state to false and hide the correct and incorrect answers.
 			};			
 		default:
 			return state;

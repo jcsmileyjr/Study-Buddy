@@ -3,6 +3,8 @@ export default function score(state={"score": 100}, {type, payload}){
 	switch(type){
 		case 'SCORE':
 			return payload;
+		case 'CLEARSCORE':
+			return payload;            
 		default:
 			return state;
 	}

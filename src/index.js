@@ -30,6 +30,9 @@ import currentPassFail from './Reducers/showPassFail.js';
 //Redux reducer to create a true or false conditin used to show/hide the SucessPage and if the player moves to the next level of quizs
 import successPage from './Reducers/successPageReducer.js';
 
+//Redux reducer to hold the user answer during the level two quiz and help determine if the answer is correct
+import currentTrueFalseAnswer from './Reducers/userTrueFalseAnswer.js';
+
 import registerServiceWorker from './registerServiceWorker';
 
 //Combined all the different Redux states that was imported into a one state that can be exported to any component via the store
@@ -40,7 +43,8 @@ const allReducers = combineReducers({
 	userAnswer: currentUserAnswer, //current user selected answer
 	test: test, //array of questions and answers
 	passFail: currentPassFail, //true or false to show/hide CSS of answers
-    successPage: successPage //true or false to show/hide Success page and which level of quizs the player is on
+    successPage: successPage, //true or false to show/hide Success page and which level of quizs the player is on
+    trueFalseAnswer: currentTrueFalseAnswer //true or false answer from user to determine correct answer in the level 2 quiz
 });
 
 //The combined data of all the states from allReducers. 

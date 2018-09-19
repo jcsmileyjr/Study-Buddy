@@ -1,9 +1,9 @@
 import React, {Component}  from 'react';
-import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import {Button} from 'react-bootstrap';
 
-import {successPageFalse} from '../Actions/hideSuccessPageAction.js';//import action to change the SuccessPage state's showSuccessPage state to false therefore hiding it.
+//import action to change the SuccessPage state's showSuccessPage state to false therefore hiding it.
+import {successPageFalse} from '../Actions/hideSuccessPageAction.js';
 
 
 //Redux action to reset the questionsAnswered state to zero
@@ -12,30 +12,39 @@ import {resetQuestionsAnswered} from '../Actions/resetquestionAnsweredActions.js
 //Redux action to reset the count state to zero
 import {resetCorrectAnswer} from '../Actions/resetCountActions.js';
 
+//import action to reset the Score state to zero
+import {clearScore} from '../Actions/clearScoreActions.js';
+
 //A component shown when the user completes a quiz. A button is press to preceed to the next quiz
 class SuccessPage extends Component{
-  /*
-  if(this.props.currentScore.score > 75){
-    const currentMessage = "You Passed, Proceed to the next next level";
-  }else{
-    const currentMessage = "You Failed, let's try again";  
-  }
-    */
- displayMessage(){
-  let currentMessage = "";
-  if(this.props.currentScore.score > 75){
-    currentMessage = "You Passed, Proceed to the next next level";
-  }else{
-    currentMessage = "You Failed, let's try again";  
-  }
-
-  return currentMessage;
- }        
+  constructor(props){
+    super(props);
+    this.state = {score: 0};//Used to hold to updated current score of the past quiz. There is a bug in the code that updates the Redux state with an incorrect score from the quiz. 
+  }    
     
+  //Gets a current score of the last quiz to update this component.     
+  componentDidMount(){
+    let newScore = (this.props.currentCount.count/this.props.questionsAnswered.questionAnswered)*100;
+    this.setState({score: newScore});
+  }  
+    
+  displayMessage(){
+    let currentMessage = "";
+    if(this.state.score >= 75){
+      currentMessage = "You Passed with a " +this.state.score + ", Proceed to the next next level";
+    }else{
+      currentMessage = "You Failed with a " +this.state.score + ", let's try again";  
+    }
+
+    return currentMessage;
+  }        
+    
+  //When the user press the button the component is closed and the current count/questions answered Redux state are reset.    
   onCloseSuccessPage = () => {
     this.props.onClosePage();
     this.props.onresetQuestionsAnswered();
-    this.props.onresetCorrectAnswer();      
+    this.props.onresetCorrectAnswer(); 
+    this.props.onresetScore();  
   }      
   render(){  
       return(
@@ -53,13 +62,15 @@ class SuccessPage extends Component{
 
 /*Use Redux to get the current score from state*/
 const mapStateToProps = state =>({
-	currentScore: state.score
+	currentCount: state.count,
+	questionsAnswered: state.answered
 });
 
 const mapActionsToProps = {
     onClosePage: successPageFalse,
     onresetQuestionsAnswered: resetQuestionsAnswered,
-    onresetCorrectAnswer: resetCorrectAnswer    
+    onresetCorrectAnswer: resetCorrectAnswer,
+    onresetScore: clearScore
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(SuccessPage);
