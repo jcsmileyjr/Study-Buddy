@@ -50,8 +50,8 @@ class CheckAnswerButton extends Component{
     if(this.props.currentQuizLevel === 1){
 	  //Test if the current user selected answer is equal to the correct answer for this question in the Redux store
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer){
-		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions  
-	  }
+		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions
+	  }         
     }
       
     if(this.props.currentQuizLevel ===2){
@@ -59,7 +59,7 @@ class CheckAnswerButton extends Component{
        
       //Compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count.     
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === true){
-		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions 
+		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions
 	  }
     
       //Compare the random answer given to the correct answer for the current problem. If the random answer incorrect and the user choose false, then one is added to the correct answer count.      
@@ -67,8 +67,8 @@ class CheckAnswerButton extends Component{
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions           
 
 	  }        
-    }  
-    
+    } 
+      
 	  this.showCorrectAnswer();//send an Redux action to return true to the Redux store, thus showing the CSS (green/correct and red/incorrect) of the displayed answers.
   }	
 

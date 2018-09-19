@@ -12,25 +12,6 @@ import {userChooseTrue} from '../Actions/userTrueAnswerActions.js';//import acti
 import {updateQuizAnswer} from '../Actions/updateTrueFalseQuizAnswer.js';//import action to update the current true or false answer to the state
 
 const styles = StyleSheet.create({
-  //add whitespace between the radio button and the answer	
-  indentAnswerOptions:{
-	  textIndent: "5%"
-  },
-	
-  //change the size of the radio button size and whitespace between them	
-  spaceBetweenOptions: {
-	  marginBottom: "0px",
-	  height: "4.3vh",
-	  width: "4.3vh",
-	  verticalAlign: "middle"
-  },
-	
-  /*remove the bullets and indention from the lists displaying the cases*/
-  removeListBullets: {
-	  listStyleType: "none",
-  	  margin: "0px",
-	  padding: "0px"
-  },
 	
   /*change the answer in the label to show its the wrong answer*/	
   wrongAnswers:{
@@ -61,7 +42,7 @@ displayAnswers(){
   const arrayofAnswers = this.props.answerList;	
     
   //current index of the test based off of how many questions the user has answered. This information is from the currentAnsweredCount state	
-  const location = 	(this.props.currentLocation).questionAnswered;    
+  const location = 	this.props.currentLocation;    
     
   //get the current answer of the current test based on location using a function from the imported RandomAnswers file.	
   const currentAnswer = RandomAnswers.getCurrentAnswer(location, arrayofAnswers);
@@ -69,26 +50,13 @@ displayAnswers(){
   //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
   const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);    
     
+  //get a random answer from the randomAnswers array to be displayed    
   const displayedRandomAnswer = randomAnswers[Math.floor(Math.random() * randomAnswers.length)];	
 	
   return displayedRandomAnswer.answer;
 }
 
-//function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
-isAnswerPass(checkAnswer){	
-  if(checkAnswer.passFail === "pass"){
-	  return true;
-  }  
-}
-
-//function used in the displayAnswers() to check if the current answer object passFail attribute is "fail" and return true. This will update the CSS tot the wrongAnswers style.
-isAnswerFail(checkAnswer){	
-  if(checkAnswer.passFail === "fail"){
-	  return true;
-  }  
-}
-
-//method that calls a Redux action to save the user selected anwer to the Redux state
+//method that calls a Redux action to save the user selected anwer to the Redux state and update true or false to the state.
 saveTrueAnswer = () =>{
 	this.props.onUpdateTrueAnswer();
     this.props.onUpdateUserAnswer(this.props.currentQuizAnswer);
@@ -100,11 +68,11 @@ saveFalseAnswer = () =>{
     this.props.onUpdateUserAnswer(this.props.currentQuizAnswer);
 }
 
-  render(){
+  render(){      
 	  return(
 		<div className="row text-center">
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-			{this.props.currentQuizAnswer}
+			<label className={css(this.props.currentPassFail.passFail && (this.props.currentAnswer === this.props.answerList[this.props.currentLocation].answer) && styles.correctAnswer, this.props.currentPassFail.passFail && (this.props.currentAnswer !== this.props.answerList[this.props.currentLocation].answer) && styles.wrongAnswers)}>{this.props.currentQuizAnswer}</label>
 		  </div>
           <div className="col-xs-12">
             <input type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} /> 
@@ -122,7 +90,8 @@ saveFalseAnswer = () =>{
 //map imported state of the tests and number of questions answered in the Redux store to local variables to be use by the component. 
 const mapStateToProps = state => ({
 	answerList: state.test,
-	currentLocation: state.answered,
+	currentLocation: state.answered.questionAnswered,
+	currentAnswer: state.userAnswer.userAnswer,    
 	currentPassFail: state.passFail,
     currentQuizAnswer: state.trueFalseAnswer.trueFalseQuizAnswer
 });
