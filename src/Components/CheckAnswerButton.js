@@ -30,7 +30,7 @@ class CheckAnswerButton extends Component{
 	  let newTest = this.props.currentTest;
 	  newTest.forEach((test) =>{
 		//if the current test answer is the correct answer, change to pass. Else, change to fail.  
-	    if(this.props.currentAnswer.userAnswer === test.answer){
+	    if(this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer === test.answer){
 			test.passFail = "pass";
 		}else {
 			test.passFail = "fail";
