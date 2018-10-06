@@ -20,6 +20,8 @@ import {successPageTrue} from '../Actions/showSuccessPageAction.js';//import act
 import {goToNextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
 
 import {updateQuizAnswer} from '../Actions/updateTrueFalseQuizAnswer.js';//import action to update the current true or false answer to the state
+
+import {updateMCQuizAnswer} from '../Actions/updateMCQuizAnswers.js';//import action to update the array of answer use on the MCAnswersList to the state
  
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
@@ -52,7 +54,25 @@ class DoneButton extends Component{
     const displayedRandomAnswer = randomAnswers[Math.floor(Math.random() * randomAnswers.length)];	
 	
     return displayedRandomAnswer.answer;
-}    
+} 
+    
+  //function to returns three random answers to use on MCAnswersList
+  displayMCAnswers(){
+	
+    //list of questions and answers from the test state	
+    const arrayofAnswers = this.props.currentTest;	
+    
+    //current index of the test based off of how many questions the user has answered. This information is from the currentAnsweredCount state. The location is increase by one to fix a bug in that the last question answered is displayed instead of the current question. 	
+    const location = 	(this.props.questionsAnswered).questionAnswered + 1;    
+    
+    //get the current answer of the current test based on location using a function from the imported RandomAnswers file.	
+    const currentAnswer = RandomAnswers.getCurrentAnswer(location, arrayofAnswers);
+	
+    //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
+    const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);    
+
+    return randomAnswers;
+}        
 
   //Update the score by dividing the count of correct answers given by the current amount of questions answer.
   getScore(){
@@ -76,6 +96,10 @@ class DoneButton extends Component{
       }else {
 	      this.props.onAddQuestionsAnswered();// add one to the count of answered questions
           
+          if(this.props.currentQuizLevel === 1){
+            let startMCQuizAnswers = this.displayMCAnswers();//get random answer to be displayed    
+            this.props.onUpdateMCQuizAnswers(startMCQuizAnswers);// updated the state so its value can be displayed below 
+          }
           //If the current quiz level is 2 then a new true/false quiz answer is randomly selected and the state updated so it can be displayed on the TrueFalseOptions component.
           if(this.props.currentQuizLevel === 2){
             let startTrueFalseQuizAnswer = this.displayAnswers();//get random answer to be displayed    
@@ -124,7 +148,8 @@ const mapActionsToProps = {
   onClearUserAnswer: clearUserAnswer,
   onShowSuccessPage :successPageTrue,
   onNextLevel: goToNextLevel,
-  onUpdateTrueFalseQuizAnswer: updateQuizAnswer
+  onUpdateTrueFalseQuizAnswer: updateQuizAnswer,
+  onUpdateMCQuizAnswers: updateMCQuizAnswer
 };
 
 export default connect(mapStateToProps,mapActionsToProps)(DoneButton);

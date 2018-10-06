@@ -5,6 +5,8 @@ import * as RandomAnswers from '../SharedFunctions/RandomAnswers.js';
 
 import {getUserAnswer} from '../Actions/userAnswerActions.js';//import action to update the user's choice to the userAnswer state
 
+import {updateMCQuizAnswer} from '../Actions/updateMCQuizAnswers.js';//import action to update the array of answer use on the MCAnswersList to the state
+
 const styles = StyleSheet.create({
   //add whitespace between the radio button and the answer	
   indentAnswerOptions:{
@@ -42,9 +44,14 @@ const styles = StyleSheet.create({
 
 //Display three answers as radio input controls. One answer is the correct answer and the other two are random incorrect answers. The component use the current array of questions/answers and current count of questions answer to determine the correct answer. All styles are applied to each answer but are turn on and off based on the passFail attribute of each answer. 
 class MCAnswersList extends Component{
-	
+    
+componentDidMount(){
+let startMCQuizAnswers = this.getMCAnswers();//get random answer to be displayed    
+this.props.onUpdateMCQuizAnswers(startMCQuizAnswers);// updated the state so its value can be displayed below
+}   
+    
 //function to create an array of options to be displayed
-displayAnswers(){
+getMCAnswers(){
 	
   //list of questions and answers from the test state	
   const arrayofAnswers = this.props.answerList;
@@ -56,18 +63,30 @@ displayAnswers(){
   const currentAnswer = RandomAnswers.getCurrentAnswer(location, arrayofAnswers);
 	
   //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
-  const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);	
+  const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);
+    
+  return randomAnswers;    
+}
+    
+//function to create an array of options to be displayed
+displayAnswers(){
+
+	
+  //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
+  const randomAnswers = this.props.currentQuizAnswer;	
 	
   //create a array of options as <li> to be displayed as answers. When the user select answer, the value is updated to the userAnswer state	
   const listOfAnswers = randomAnswers.map((answers, index) =>
 	<li key={index}>
 	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} />
-		<label className={css(this.props.currentPassFail.passFail && this.isAnswerPass(answers) && styles.correctAnswer, this.props.currentPassFail.passFail && this.isAnswerFail(answers) && styles.wrongAnswers)}>{answers.answer}</label>				   
+		<label className={css(this.props.currentPassFail.passFail && (answers.answer === this.props.answerList[this.props.currentLocation.questionAnswered].answer) && styles.correctAnswer, this.props.currentPassFail.passFail && (answers.answer !== this.props.answerList[this.props.currentLocation.questionAnswered].answer) && styles.wrongAnswers)}>{answers.answer}</label>				   
 	</li>									   
   );
 	
 	return listOfAnswers;
 }
+
+
 
 //function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
 isAnswerPass(checkAnswer){	
@@ -106,12 +125,15 @@ saveUserAnswer = event =>{
 const mapStateToProps = state => ({
 	answerList: state.test,
 	currentLocation: state.answered,
-	currentPassFail: state.passFail
+	currentPassFail: state.passFail,
+	currentAnswer: state.userAnswer.userAnswer,  
+    currentQuizAnswer: state.trueFalseAnswer.MCQuizAnswers
 });
 
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store
 const mapActionsToProps = {
-  onUpdateUserAnswer: getUserAnswer 
+  onUpdateUserAnswer: getUserAnswer,
+  onUpdateMCQuizAnswers: updateMCQuizAnswer
 };
 
 export default connect(mapStateToProps, mapActionsToProps)(MCAnswersList);
