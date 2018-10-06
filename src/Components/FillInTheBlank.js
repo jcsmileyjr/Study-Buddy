@@ -47,7 +47,7 @@ saveFalseAnswer = () =>{
 	  return(
 		<div className="row ">
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 text-center">
-			<input type="text" />
+			<input type="text" disabled={this.props.currentPassFail} />
 		  </div>          
 		  {this.props.currentPassFail && <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 text-center">
 			<label className={css(styles.labelWhiteSpace)}>{this.props.answerList[this.props.currentLocation].answer}</label>
