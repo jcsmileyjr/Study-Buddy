@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 function TrueFalseOptions (props){    
   return(
     <div className={`col-xs-6 col-xs-offset-4 ${css(styles.indentAnswerOptions)}`}>
+      <input className={css(styles.radioWhiteSpace)} type="radio" name="choice" value={props.choice}  onClick={props.answerChoice}  /> 
       <label> {props.choice} </label>      
 	</div>
   );    
@@ -49,7 +50,7 @@ saveFalseAnswer = () =>{
 			<input type="text" />
 		  </div>          
 		  {this.props.currentPassFail && <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 text-center">
-			<label className={css(styles.labelWhiteSpace)}>Love You</label>
+			<label className={css(styles.labelWhiteSpace)}>{this.props.answerList[this.props.currentLocation].answer}</label>
 		  </div>}
           
           {this.props.currentPassFail && <TrueFalseOptions choice="true" />}
@@ -60,7 +61,9 @@ saveFalseAnswer = () =>{
 }    
 
 const mapStateToProps = state => ({
-	currentPassFail: state.passFail.passFail
+	currentPassFail: state.passFail.passFail,
+	answerList: state.test,
+	currentLocation: state.answered.questionAnswered,
 });
 
 const mapActionsToProps = {
