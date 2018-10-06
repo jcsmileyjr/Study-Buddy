@@ -77,11 +77,11 @@ displayAllAnswers(){
 	    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		  <h3>
 	  	    {currentQuestion}
-            <Button>
+            
 	  	    <span onClick={this.showListOfAnswers}>
 	  		  <i className= {`fas fa-book ${css(styles.listOfAnswers)}`}></i>
 		    </span>
-            </Button>
+            
 		  </h3>
           <Modal show={this.state.show} onHide={this.hideListOfAnswers}>
             <Modal.Header className={css(styles.orangeBackground)} closeButton>
