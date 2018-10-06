@@ -10,6 +10,7 @@ import DoneButton from './Components/DoneButton.js';
 import Motivation from './Components/Motivation.js';
 import SuccessPage from './Components/SuccessPage.js';
 import TrueFalseOptions from './Components/TrueFalseOptions.js';
+import FillInTheBlank from './Components/FillInTheBlank.js';
 
 const styles = StyleSheet.create({
   //create stripe grey lines throughout the app background as long as there is content	
@@ -34,6 +35,7 @@ function MulitpleChoiceLevel1 (props){
       <MCAnswersList />
 	  {!props.currentPassFail && <CheckAnswerButton />}
 	  {props.currentPassFail && <DoneButton />}
+<FillInTheBlank />
 	  <Motivation />
 	</div>
   );    
