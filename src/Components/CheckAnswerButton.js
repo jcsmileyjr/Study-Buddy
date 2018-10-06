@@ -76,7 +76,7 @@ class CheckAnswerButton extends Component{
     return(
       <div className={`row ${css(styles.whiteSpaceAboveElement)}`}>
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-          <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.onCheckAnswer} disabled={this.props.currentAnswer.userAnswer===""}>Check Answer</Button>
+          <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.onCheckAnswer} disabled={this.props.currentAnswer.userAnswer==="" && this.props.currentQuizLevel < 3}>Check Answer</Button>
         </div>
       </div>
    );      //end of return

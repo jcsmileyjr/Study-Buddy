@@ -22,6 +22,9 @@ import {goToNextLevel} from '../Actions/nextLevelAction.js';//import action to m
 import {updateQuizAnswer} from '../Actions/updateTrueFalseQuizAnswer.js';//import action to update the current true or false answer to the state
 
 import {updateMCQuizAnswer} from '../Actions/updateMCQuizAnswers.js';//import action to update the array of answer use on the MCAnswersList to the state
+
+//Redux action to update the count state by one
+import {addCorrectAnswer} from '../Actions/correctCountActions.js';
  
 const styles = StyleSheet.create({
   whiteSpaceAboveElement:{
@@ -104,6 +107,14 @@ class DoneButton extends Component{
           if(this.props.currentQuizLevel === 2){
             let startTrueFalseQuizAnswer = this.displayAnswers();//get random answer to be displayed    
             this.props.onUpdateTrueFalseQuizAnswer(startTrueFalseQuizAnswer);// updated the state so its value can be displayed below              
+          }		      
+       
+          //Compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count. 
+          if(this.props.currentQuizLevel === 3){                
+            if(this.props.currentTrueFalseUserAnswer.truefalse === true){                
+                this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions	
+            }
+              
           }
       }//end of else statement          
           //Update the score by dividing questionAnswer/count (the current amount of questions answer by the count of correct answers given, then waiting 5 seconds before updating score. The timeout give the async Redux actions time to update. If not use, the first variable, count, updates before the second variable and return a NAN. 
@@ -137,7 +148,8 @@ const mapStateToProps = state =>({
 	currentCount: state.count,
 	questionsAnswered: state.answered,
     currentQuizLevel: state.successPage.currentLevel,
-    currentTest: state.test
+    currentTest: state.test,
+    currentTrueFalseUserAnswer: state.trueFalseAnswer
 });
 
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store such as questions answer, current score, user selected answer, whether to show the SuccessPage, move the player to the next level, and current value of showPass.
@@ -149,7 +161,8 @@ const mapActionsToProps = {
   onShowSuccessPage :successPageTrue,
   onNextLevel: goToNextLevel,
   onUpdateTrueFalseQuizAnswer: updateQuizAnswer,
-  onUpdateMCQuizAnswers: updateMCQuizAnswer
+  onUpdateMCQuizAnswers: updateMCQuizAnswer,
+  onAddCorrectAnswer: addCorrectAnswer,
 };
 
 export default connect(mapStateToProps,mapActionsToProps)(DoneButton);
