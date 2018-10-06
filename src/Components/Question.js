@@ -5,10 +5,28 @@ import {connect} from 'react-redux';
 
 //add some coloring to the listOfAnswers icon that will display a list of answers
 const styles = StyleSheet.create({
+    
+  /*remove the bullets and indention from the lists displaying the cases*/
+  removeListBullets: {
+	  listStyleType: "none",
+      textAlign: "center",
+  	  margin: "0px",
+	  padding: "0px"
+  },
+    
   listOfAnswers:{
 	  backgroundColor: 'white',
 	  color: 'orange'
-  }	
+  },
+    
+  orangeBackground:{
+      textAlign: "center",      
+      backgroundColor: '#FFCC80'
+  },
+  
+  buttonTextColor:{
+	color: "black" //button text is black
+  }    
 	
 });
 
@@ -17,7 +35,22 @@ class Question extends Component {
   constructor(props){
     super(props);
     this.state= {show:false};
-  }    
+  }
+    
+
+displayAllAnswers(){
+    
+  const allAnswers = this.props.question;
+	
+  const listAllAnswers = allAnswers.map((answers, index) =>
+	<li className={css(styles.removeListBullets)} key={index}>
+		<label>{answers.answer}</label>				   
+	</li>									   
+  );
+	
+	return listAllAnswers;
+   
+}    
     
 
   showListOfAnswers = () =>{
@@ -51,13 +84,14 @@ class Question extends Component {
             </Button>
 		  </h3>
           <Modal show={this.state.show} onHide={this.hideListOfAnswers}>
-            <Modal.Header closeButton>
+            <Modal.Header className={css(styles.orangeBackground)} closeButton>
               <Modal.Title>List of Answers</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              
+              {this.displayAllAnswers()}
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer className={css(styles.orangeBackground)}>
+              <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.hideListOfAnswers}>Close</Button>
             </Modal.Footer>
           </Modal>
 	    </div>		
