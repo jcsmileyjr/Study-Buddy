@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     
   indentAnswerOptions:{
 	  textIndent: "5%"
+  },
+    
+  resetButton: {
+      backgroundColor: "#ff6666",
+      fontSize:"bolder"
   }    
 	
 });
@@ -49,7 +54,10 @@ saveFalseAnswer = () =>{
 	  return(
 		<div className="row ">
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 text-center">
-			<input type="text" disabled={this.props.currentPassFail} />
+            <form>
+			  <input type="text" disabled={this.props.currentPassFail} />
+              <input className={css(styles.resetButton)} type="reset" />
+            </form>
 		  </div>
 
 		  {this.props.currentPassFail && <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 text-center">
