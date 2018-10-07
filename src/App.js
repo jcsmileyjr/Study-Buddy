@@ -35,7 +35,6 @@ function MulitpleChoiceLevel1 (props){
       <MCAnswersList />
 	  {!props.currentPassFail && <CheckAnswerButton />}
 	  {props.currentPassFail && <DoneButton />}
-<FillInTheBlank />
 	  <Motivation />
 	</div>
   );    

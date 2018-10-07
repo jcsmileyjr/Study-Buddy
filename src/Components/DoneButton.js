@@ -95,7 +95,15 @@ class DoneButton extends Component{
           this.props.onAddQuestionsAnswered();// add one to the count of answered questions 
           this.props.onShowSuccessPage();// show the SuccessPage component by updating state to true
           this.props.onNextLevel(); // go to the next quiz level by updating the state by one
-	      this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black) and show the CheckAnswerButton (hide the DoneButton) component.          
+	      this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black) and show the CheckAnswerButton (hide the DoneButton) component.
+          
+          //To fix a bug in that the correct answer count is not updated before going to the success page this was added. This adds one to correct count if the user choose true on level 3
+          if(this.props.currentQuizLevel === 3){                
+            if(this.props.currentTrueFalseUserAnswer.truefalse === true){                
+                this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions	
+            }
+              
+          }          
       }else {
 	      this.props.onAddQuestionsAnswered();// add one to the count of answered questions
           
@@ -119,7 +127,7 @@ class DoneButton extends Component{
       }//end of else statement          
           //Update the score by dividing questionAnswer/count (the current amount of questions answer by the count of correct answers given, then waiting 5 seconds before updating score. The timeout give the async Redux actions time to update. If not use, the first variable, count, updates before the second variable and return a NAN. 
 	      setTimeout(() =>{
-	        this.getScore(), 5000		  
+	        this.getScore(), 6000		  
 	  
 	        this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black) and show the CheckAnswerButton (hide the DoneButton) component.
 	              
