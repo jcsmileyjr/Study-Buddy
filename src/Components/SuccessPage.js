@@ -15,6 +15,27 @@ import {resetCorrectAnswer} from '../Actions/resetCountActions.js';
 //import action to reset the Score state to zero
 import {clearScore} from '../Actions/clearScoreActions.js';
 
+ 
+function EndOfGame (props){    
+  return(
+    
+      <div className="col-xs-12 text-center">
+        <p>Text Dad the keyword "Done" to Get a Reward for Completing the game.</p>
+        <Button onClick={props.continue} bsStyle="success">Restart the Game</Button>  
+      </div>
+  );    
+}
+
+function NextGame(props){
+  return(
+    
+      <div className="col-xs-12 text-center">
+        <Button onClick={props.continue} bsStyle="success">Start Quiz</Button>        
+      </div> 
+  );
+}
+
+
 //A component shown when the user completes a quiz. A button is press to preceed to the next quiz
 class SuccessPage extends Component{
   constructor(props){
@@ -25,7 +46,7 @@ class SuccessPage extends Component{
   //Gets a current score of the last quiz to update this component.     
   componentDidMount(){
     let newScore = (this.props.currentCount.count/this.props.questionsAnswered.questionAnswered)*100;
-    this.setState({score: newScore});
+    this.setState({score: newScore, endGame:false});
   }  
     
   displayMessage(){
@@ -46,15 +67,14 @@ class SuccessPage extends Component{
     this.props.onresetCorrectAnswer(); 
     this.props.onresetScore();  
   }      
+  
   render(){  
       return(
         <div className="row">
           <div className="col-xs-12 text-center">
             <h1>{this.displayMessage()}</h1>
           </div>
-          <div className="col-xs-12 text-center">
-            <Button onClick={this.onCloseSuccessPage} bsStyle="success">Start Quiz</Button>        
-          </div>
+          {this.props.currentQuizLevel <= 3 ? <NextGame continue={this.onCloseSuccessPage} />: <EndOfGame continue={this.onCloseSuccessPage} />} 
         </div>  
       );	
   }
@@ -63,6 +83,7 @@ class SuccessPage extends Component{
 /*Use Redux to get the current score from state*/
 const mapStateToProps = state =>({
 	currentCount: state.count,
+    currentQuizLevel: state.successPage.currentLevel,    
 	questionsAnswered: state.answered
 });
 
