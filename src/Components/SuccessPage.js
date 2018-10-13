@@ -30,6 +30,7 @@ function NextGame(props){
   return(
     
       <div className="col-xs-12 text-center">
+        <h1>{props.message}</h1>
         <Button onClick={props.continue} bsStyle="success">Start Quiz</Button>        
       </div> 
   );
@@ -58,7 +59,11 @@ class SuccessPage extends Component{
     }
 
     return currentMessage;
-  }        
+  }
+    
+  displayCongrats(){
+    
+  }    
     
   //When the user press the button the component is closed and the current count/questions answered Redux state are reset.    
   onCloseSuccessPage = () => {
@@ -71,10 +76,7 @@ class SuccessPage extends Component{
   render(){  
       return(
         <div className="row">
-          <div className="col-xs-12 text-center">
-            <h1>{this.displayMessage()}</h1>
-          </div>
-          {this.props.currentQuizLevel <= 3 ? <NextGame continue={this.onCloseSuccessPage} />: <EndOfGame continue={this.onCloseSuccessPage} />} 
+          {this.props.currentQuizLevel <= 3 ? <NextGame continue={this.onCloseSuccessPage} message={this.displayMessage()} />: <EndOfGame continue={this.onCloseSuccessPage} />} 
         </div>  
       );	
   }
