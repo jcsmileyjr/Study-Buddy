@@ -1,5 +1,5 @@
 //reducer use to show or hide the Success component and to move the player from one level to the next. 
-export default function successPage(state={"showSuccessPage": false, "currentLevel":2}, {type, payload}){
+export default function successPage(state={"showSuccessPage": false, "currentLevel":1}, {type, payload}){
 	switch(type){
 		case 'SHOWSUCCESSPAGE':
 			return {
@@ -16,6 +16,11 @@ export default function successPage(state={"showSuccessPage": false, "currentLev
                 showSuccessPage: state.showSuccessPage,
                 currentLevel: state.currentLevel + 1 //adds one to the state
             };
+        case 'RESETLEVEL':
+            return {
+                showSuccessPage: state.showSuccessPage,
+                currentLevel: state.currentLevel = 1  //reset state to 1
+            };            
 		default:
 			return state;
 	}
