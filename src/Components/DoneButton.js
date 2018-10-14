@@ -17,7 +17,7 @@ import {clearUserAnswer} from '../Actions/clearUserAnswerActions.js';//import ac
 
 import {successPageTrue} from '../Actions/showSuccessPageAction.js';//import action to change the SuccessPage state's showSuccessPage state to true therefore showing it.
 
-import {goToNextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
+//import {goToNextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
 
 import {updateQuizAnswer} from '../Actions/updateTrueFalseQuizAnswer.js';//import action to update the current true or false answer to the state
 
@@ -94,9 +94,8 @@ class DoneButton extends Component{
       if(this.props.questionsAnswered.questionAnswered === (numberOfQuestions -1) ){
           this.props.onAddQuestionsAnswered();// add one to the count of answered questions 
           this.props.onShowSuccessPage();// show the SuccessPage component by updating state to true
-          this.props.onNextLevel(); // go to the next quiz level by updating the state by one
-	      this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black) and show the CheckAnswerButton (hide the DoneButton) component.
-          
+	      this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black) and show the CheckAnswerButton (hide the DoneButton) component.             
+                  
           //To fix a bug in that the correct answer count is not updated before going to the success page this was added. This adds one to correct count if the user choose true on level 3
           if(this.props.currentQuizLevel === 3){                
             if(this.props.currentTrueFalseUserAnswer.truefalse === true){                
@@ -131,11 +130,8 @@ class DoneButton extends Component{
 	  
 	        this.props.onHidePassAnswers();//send an Redux action to return false to the Redux store, thus hiding the CSS (green/correct and red/incorrect) of the displayed answers (color is now black) and show the CheckAnswerButton (hide the DoneButton) component.
 	              
-            this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component.
-              
-	       });
-      
-
+            this.props.onClearUserAnswer(); //send an Redux action to reset the user answer Redux state. This will disable the CheckAnswerButton component.                 
+            });
       
   }//end of getNextQuestion()		
         
@@ -167,7 +163,6 @@ const mapActionsToProps = {
   onHidePassAnswers: showCSSFail,
   onClearUserAnswer: clearUserAnswer,
   onShowSuccessPage :successPageTrue,
-  onNextLevel: goToNextLevel,
   onUpdateTrueFalseQuizAnswer: updateQuizAnswer,
   onUpdateMCQuizAnswers: updateMCQuizAnswer,
   onAddCorrectAnswer: addCorrectAnswer,

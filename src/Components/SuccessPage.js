@@ -15,17 +15,33 @@ import {resetCorrectAnswer} from '../Actions/resetCountActions.js';
 //import action to reset the Score state to zero
 import {clearScore} from '../Actions/clearScoreActions.js';
 
- 
-function EndOfGame (props){    
+import {goToNextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
+
+//UI to be displayed if all three levels of the test have been completed and passed 
+function EndOfGamePass (props){    
   return(
     
       <div className="col-xs-12 text-center">
+        <h1>You pass with a {props.score}</h1>
         <p>Text Dad the keyword "Done" to Get a Reward for Completing the game.</p>
         <Button onClick={props.continue} bsStyle="success">Restart the Game</Button>  
       </div>
   );    
 }
 
+//UI to be displayed if all three levels of the test have been completed and passed 
+function EndOfGameFail (props){    
+  return(
+    
+      <div className="col-xs-12 text-center">
+        <h1>You fail with a {props.score}</h1>
+        <p>Lets try again</p>
+        <Button onClick={props.continue} bsStyle="success">Restart the Game</Button>  
+      </div>
+  );    
+}
+
+//UI to be displayed when the user completes a test.
 function NextGame(props){
   return(
     
@@ -50,6 +66,7 @@ class SuccessPage extends Component{
     this.setState({score: newScore, endGame:false});
   }  
     
+  //Display to the user the final score and if they pass or fail    
   displayMessage(){
     let currentMessage = "";
     if(this.state.score >= 75){
@@ -65,18 +82,24 @@ class SuccessPage extends Component{
     
   }    
     
-  //When the user press the button the component is closed and the current count/questions answered Redux state are reset.    
-  onCloseSuccessPage = () => {
-    this.props.onClosePage();
-    this.props.onresetQuestionsAnswered();
-    this.props.onresetCorrectAnswer(); 
-    this.props.onresetScore();  
+  //When the user press the button the component is closed and the current count/questions answered Redux state are reset. This start the user with a fresh un-anwered test    
+  onCloseSuccessPage = () => {           
+          //If the user scores 75 or above, then the next game level is enable
+          if(this.state.score >= 75){
+            this.props.onNextLevel(); // go to the next quiz level by updating the state by one              
+          }       
+    this.props.onClosePage();//sets the successPage state to false, therefore closing the Success page
+    this.props.onresetQuestionsAnswered();//reset the number of questions answer counter to 0
+    this.props.onresetCorrectAnswer(); //reset the number questions answered correctly to 0
+    this.props.onresetScore();//reset the score  in the state  
   }      
   
   render(){  
       return(
         <div className="row">
-          {this.props.currentQuizLevel <= 3 ? <NextGame continue={this.onCloseSuccessPage} message={this.displayMessage()} />: <EndOfGame continue={this.onCloseSuccessPage} />} 
+          {(this.props.currentQuizLevel <= 2) && <NextGame continue={this.onCloseSuccessPage} message={this.displayMessage()} />}
+          {(this.props.currentQuizLevel >= 3 && this.state.score >= 75) && <EndOfGamePass continue={this.onCloseSuccessPage} score={this.state.score} />}
+          {(this.props.currentQuizLevel >= 3 && this.state.score < 75) && <EndOfGameFail continue={this.onCloseSuccessPage} score={this.state.score} />}
         </div>  
       );	
   }
@@ -93,6 +116,7 @@ const mapActionsToProps = {
     onClosePage: successPageFalse,
     onresetQuestionsAnswered: resetQuestionsAnswered,
     onresetCorrectAnswer: resetCorrectAnswer,
+    onNextLevel: goToNextLevel,    
     onresetScore: clearScore
 };
 
