@@ -11,6 +11,7 @@ import Motivation from './Components/Motivation.js';
 import SuccessPage from './Components/SuccessPage.js';
 import TrueFalseOptions from './Components/TrueFalseOptions.js';
 import FillInTheBlank from './Components/FillInTheBlank.js';
+import TopScore from './Components/TopScore.js';
 
 const styles = StyleSheet.create({
   //create stripe grey lines throughout the app background as long as there is content	
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
 });
 
 //level one or the first of the series of quizs on one specific list of questions and answers for the user. The user must choose one of three answers per question. One answer is correct and the other two randam answers is incorect. A variable call currentPassFail is received from the parent (from the Redux state) to alternate beteween the CheckAnswerButton and Donebutton components. 
-function MulitpleChoiceLevel1 (props){    
+function MulitpleChoiceLevel1 (props){ 
   return(
     <div className= {`col-xs-12 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4 col-xl-6 col-xl-offset-3 ${css(styles.appBackground)}`}>
 	  <Nav />
@@ -36,6 +37,7 @@ function MulitpleChoiceLevel1 (props){
 	  {!props.currentPassFail && <CheckAnswerButton />}
 	  {props.currentPassFail && <DoneButton />}
 	  <Motivation />
+      <TopScore />
 	</div>
   );    
 }
@@ -49,6 +51,7 @@ function TrueFalseLevel2(props){
 	  {!props.currentPassFail && <CheckAnswerButton />}
 	  {props.currentPassFail && <DoneButton />}
 	  <Motivation />
+      <TopScore />
 	</div>
   );
 }
@@ -62,6 +65,7 @@ function FillInTheBlankLevel3(props){
 	  {!props.currentPassFail && <CheckAnswerButton />}
 	  {props.currentPassFail && <DoneButton />}
 	  <Motivation />
+      <TopScore />
 	</div>
   );
 }
