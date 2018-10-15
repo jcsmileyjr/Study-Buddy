@@ -16,6 +16,11 @@ export default function successPage(state={"showSuccessPage": false, "currentLev
                 showSuccessPage: state.showSuccessPage,
                 currentLevel: state.currentLevel + 1 //adds one to the state
             };
+        case 'RESETLEVEL':
+            return {
+                showSuccessPage: state.showSuccessPage,
+                currentLevel: state.currentLevel = 1  //reset state to 1
+            };            
 		default:
 			return state;
 	}

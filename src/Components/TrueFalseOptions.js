@@ -23,7 +23,20 @@ const styles = StyleSheet.create({
   correctAnswer:{
 	  color: "green",
 	  fontSize: "1.2em"
-  }		
+  },
+    
+  //add whitespace between the radio button and the answer	
+  indentAnswerOptions:{
+	  textIndent: "5%"
+  },    
+    
+  //change the size of the radio button size and whitespace between them	
+  spaceBetweenOptions: {
+	  marginBottom: "0px",
+	  height: "4.3vh",
+	  width: "4.3vh",
+	  verticalAlign: "middle"
+  }    
 	
 });
 
@@ -70,17 +83,17 @@ saveFalseAnswer = () =>{
 
   render(){      
 	  return(
-		<div className="row text-center">
-		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+		<div className="row ">
+		  <div className="text-center col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
 			<label className={css(this.props.currentPassFail.passFail && (this.props.currentAnswer === this.props.answerList[this.props.currentLocation].answer) && styles.correctAnswer, this.props.currentPassFail.passFail && (this.props.currentAnswer !== this.props.answerList[this.props.currentLocation].answer) && styles.wrongAnswers)}>{this.props.currentQuizAnswer}</label>
 		  </div>
-          <div className="col-xs-12">
-            <input type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} /> 
-            <label> True </label>
+          <div className="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
+            <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} />
+            <label className={css(styles.indentAnswerOptions)}> True </label>
           </div>
-          <div className="col-xs-12">
-            <input type="radio" name="choice" value={false}  onClick={this.saveFalseAnswer} />
-            <label> False </label>
+          <div className="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
+            <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={false}  onClick={this.saveFalseAnswer} />
+            <label className={css(styles.indentAnswerOptions)}> False </label>
           </div>
 		</div>  
 	  );

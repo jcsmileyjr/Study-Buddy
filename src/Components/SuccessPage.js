@@ -15,6 +15,46 @@ import {resetCorrectAnswer} from '../Actions/resetCountActions.js';
 //import action to reset the Score state to zero
 import {clearScore} from '../Actions/clearScoreActions.js';
 
+import {goToNextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
+
+import {resetLevel} from '../Actions/resetLevelAction.js';//import action to move the player to the first level of the test
+
+//UI to be displayed if all three levels of the test have been completed and passed 
+function EndOfGamePass (props){    
+  return(
+    
+      <div className="col-xs-12 text-center">
+        <h1>You pass with a {props.score}</h1>
+        <p>Text Dad the keyword "Done" to Get a Reward for Completing the game.</p>
+        <Button onClick={props.continue} bsStyle="success">Restart the Game</Button>  
+      </div>
+  );    
+}
+
+//UI to be displayed if all three levels of the test have been completed and passed 
+function EndOfGameFail (props){    
+  return(
+    
+      <div className="col-xs-12 text-center">
+        <h1>You fail with a {props.score}</h1>
+        <p>Lets try again</p>
+        <Button onClick={props.continue} bsStyle="success">Restart the Game</Button>  
+      </div>
+  );    
+}
+
+//UI to be displayed when the user completes a test.
+function NextGame(props){
+  return(
+    
+      <div className="col-xs-12 text-center">
+        <h1>{props.message}</h1>
+        <Button onClick={props.continue} bsStyle="success">Start Quiz</Button>        
+      </div> 
+  );
+}
+
+
 //A component shown when the user completes a quiz. A button is press to preceed to the next quiz
 class SuccessPage extends Component{
   constructor(props){
@@ -25,9 +65,10 @@ class SuccessPage extends Component{
   //Gets a current score of the last quiz to update this component.     
   componentDidMount(){
     let newScore = (this.props.currentCount.count/this.props.questionsAnswered.questionAnswered)*100;
-    this.setState({score: newScore});
+    this.setState({score: newScore, endGame:false});
   }  
     
+  //Display to the user the final score and if they pass or fail    
   displayMessage(){
     let currentMessage = "";
     if(this.state.score >= 75){
@@ -37,24 +78,44 @@ class SuccessPage extends Component{
     }
 
     return currentMessage;
-  }        
+  }
     
-  //When the user press the button the component is closed and the current count/questions answered Redux state are reset.    
-  onCloseSuccessPage = () => {
-    this.props.onClosePage();
-    this.props.onresetQuestionsAnswered();
-    this.props.onresetCorrectAnswer(); 
-    this.props.onresetScore();  
-  }      
+  displayCongrats(){
+    
+  }    
+    
+  //When the user press the button the component is closed and the current count/questions answered Redux state are reset. This start the user with a fresh un-anwered test    
+  onCloseSuccessPage = () => {      
+        
+    //If the user scores 75 or above, then the next game level is enable
+    if(this.state.score >= 75){
+      this.props.onNextLevel(); // go to the next quiz level by updating the state by one              
+    }
+      
+    this.resetGameState();//a series of Redux actions that reset the game state to get ready for the next game
+  } 
+  
+  //if the quiz level is 3, then reset the game by reseting the quiz level to 1 via Redux and reset all state
+  onRestartGame = () =>{
+      
+    this.props.onResetLevel(); // go to the next quiz level by updating the state by one
+    this.resetGameState();//a series of Redux actions that reset the game state to get ready for the next game 
+  }
+  
+  //a series of Redux actions that reset the game state to get ready for the next game
+  resetGameState(){
+    this.props.onClosePage();//sets the successPage state to false, therefore closing the Success page
+    this.props.onresetQuestionsAnswered();//reset the number of questions answer counter to 0
+    this.props.onresetCorrectAnswer(); //reset the number questions answered correctly to 0
+    this.props.onresetScore();//reset the score  in the state       
+  }
+  
   render(){  
       return(
         <div className="row">
-          <div className="col-xs-12 text-center">
-            <h1>{this.displayMessage()}</h1>
-          </div>
-          <div className="col-xs-12 text-center">
-            <Button onClick={this.onCloseSuccessPage} bsStyle="success">Start Quiz</Button>        
-          </div>
+          {(this.props.currentQuizLevel <= 2) && <NextGame continue={this.onCloseSuccessPage} message={this.displayMessage()} />}
+          {(this.props.currentQuizLevel >= 3 && this.state.score >= 75) && <EndOfGamePass continue={this.onRestartGame} score={this.state.score} />}
+          {(this.props.currentQuizLevel >= 3 && this.state.score < 75) && <EndOfGameFail continue={this.onRestartGame} score={this.state.score} />}
         </div>  
       );	
   }
@@ -63,6 +124,7 @@ class SuccessPage extends Component{
 /*Use Redux to get the current score from state*/
 const mapStateToProps = state =>({
 	currentCount: state.count,
+    currentQuizLevel: state.successPage.currentLevel,    
 	questionsAnswered: state.answered
 });
 
@@ -70,6 +132,8 @@ const mapActionsToProps = {
     onClosePage: successPageFalse,
     onresetQuestionsAnswered: resetQuestionsAnswered,
     onresetCorrectAnswer: resetCorrectAnswer,
+    onNextLevel: goToNextLevel,
+    onResetLevel: resetLevel,
     onresetScore: clearScore
 };
 
