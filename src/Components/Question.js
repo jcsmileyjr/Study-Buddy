@@ -26,6 +26,19 @@ const styles = StyleSheet.create({
   
   buttonTextColor:{
 	color: "black" //button text is black
+  },
+
+  //Add a blinking colors animation to the streak
+  //tips @ https://awesomereact.com/playlists/style-your-app/BIpKF_CMhu8 and old Index Cards app    
+  streakColor:{
+    animationDuration: '1.5s',
+    animationIterationCount: 'infinite',
+    animationName: {
+      '0%':{color: "green"},
+      '25%':{transform: "scale(1.05) rotate(4deg)"},    
+      '50%':{color: "orange", transform: "scale(1.05) rotate(-4deg)"},
+      '100%':{color: "navy"}
+    }
   }    
 	
 });
@@ -76,7 +89,7 @@ displayAllAnswers(){
       <div className="row text-center">
          
 	    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          {this.props.currentStreak >= 3 && <h4>STREAK {this.props.currentStreak}</h4>}
+          {this.props.currentStreak >= 3 && <h4 className={css(styles.streakColor)}>STREAK {this.props.currentStreak}</h4>}
 		  <h3>
 	  	    {currentQuestion}
             
