@@ -76,7 +76,7 @@ displayAllAnswers(){
       <div className="row text-center">
          
 	    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <h4>STREAK</h4>
+          {this.props.currentStreak >= 3 && <h4>STREAK {this.props.currentStreak}</h4>}
 		  <h3>
 	  	    {currentQuestion}
             
@@ -105,7 +105,8 @@ displayAllAnswers(){
 /*Use Redux to get the current list of questions/answers and number of questions answered*/
 const mapStateToProps = state =>({
 	question: state.test,
-	currentLocation: state.answered
+	currentLocation: state.answered,
+    currentStreak: state.streak.streak
 });
 
 export default connect(mapStateToProps)(Question);

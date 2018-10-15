@@ -78,9 +78,9 @@ class CheckAnswerButton extends Component{
 	  }else{
           this.props.onResetStreak();//if the user answers incorrectly, reset the streak Redux state
       }     
-        
-	  this.showCorrectAnswer();//send an Redux action to return true to the Redux store, thus showing the CSS (green/correct and red/incorrect) of the displayed answers.
-      }
+    }  
+    this.showCorrectAnswer();//send an Redux action to return true to the Redux store, thus showing the CSS (green/correct and red/incorrect) of the displayed answers.
+      
   }	
 
   render(){
