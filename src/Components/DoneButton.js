@@ -122,6 +122,7 @@ class DoneButton extends Component{
             this.props.onUpdateTrueFalseQuizAnswer(startTrueFalseQuizAnswer);// updated the state so its value can be displayed below              
           }		      
        
+          //This updates the count state when the user answers correctly during the quiz level 3. 
           //Compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count. 
           if(this.props.currentQuizLevel === 3){                
             if(this.props.currentTrueFalseUserAnswer.truefalse === true){                

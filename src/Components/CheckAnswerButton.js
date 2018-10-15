@@ -53,6 +53,7 @@ class CheckAnswerButton extends Component{
   //Method use when user click the button. It adds one to the  correct answer count if the user selected answer is correct
   onCheckAnswer = event => {
       
+    //This updates the count state when the user answers correctly during the quiz level 1  
     if(this.props.currentQuizLevel === 1){
 	  //Test if the current user selected answer is equal to the correct answer for this question in the Redux store
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer){
@@ -62,29 +63,24 @@ class CheckAnswerButton extends Component{
           this.props.onResetStreak();//if the user answers incorrectly, reset the streak Redux state
       }         
     }
-      
+     
+    //This updates the count state when the user answers correctly during the quiz level 2    
     if(this.props.currentQuizLevel ===2){
       const currentTrueFalseChoice = this.props.currentTrueFalseUserAnswer.truefalse; //get the user true or false choice
-       
-      //Compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count.     
+  
+      //First, compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count. Second, compare the random answer given to the correct answer for the current problem. If the random answer incorrect and the user choose false, then one is added to the correct answer count. In both cases if the answer is corret add one to the Streak State and if incorrect reset the Streak state.      
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === true){
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions
           this.props.onAddStreak();//if the user answers correctly, add one to the streak Redux state
-	  }else{
-          this.props.onResetStreak();//if the user answers incorrectly, reset the streak Redux state
-      } 
-    
-      //Compare the random answer given to the correct answer for the current problem. If the random answer incorrect and the user choose false, then one is added to the correct answer count.      
-	  if(this.props.currentAnswer.userAnswer !== this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === false){
-		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions           
-
+	  }else if(this.props.currentAnswer.userAnswer !== this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === false){
+		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions         
           this.props.onAddStreak();//if the user answers correctly, add one to the streak Redux state
 	  }else{
           this.props.onResetStreak();//if the user answers incorrectly, reset the streak Redux state
       }     
-    } 
-      
+        
 	  this.showCorrectAnswer();//send an Redux action to return true to the Redux store, thus showing the CSS (green/correct and red/incorrect) of the displayed answers.
+      }
   }	
 
   render(){
