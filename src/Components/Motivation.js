@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   }     
 });
 
-function Motivation({currentLocation}){
+function Motivation(){
 
   //Retrieve a random feedback to be displayed    
   const motivation =  positiveFeedBack[Math.floor(Math.random() * positiveFeedBack.length)];   

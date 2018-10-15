@@ -110,9 +110,26 @@ class SuccessPage extends Component{
     this.props.onClosePage();//sets the successPage state to false, therefore closing the Success page
     this.props.onresetQuestionsAnswered();//reset the number of questions answer counter to 0
     this.props.onresetCorrectAnswer(); //reset the number questions answered correctly to 0
-    this.props.onresetScore();//reset the score  in the state    
+    this.props.onresetScore();//reset the score  in the state 
+    this.setTopScore();  
   }
-  
+
+  //set the current score, if its the higher then the current save highest score, as the top score to be displayed in the TopScore component
+  setTopScore(){
+    
+    //create a unique key for the current test and quiz level. Format name + Quiz + level
+    const uniqueLocalStorageKey = "testQuiz" + this.props.currentQuizLevel;
+    
+    //get the current score or null from local storage  
+    const currentTopScore = localStorage.getItem(uniqueLocalStorageKey);
+      
+    //Check if the local storage item is null or if the current score is less then the save top score. If it is less, then save new highest score to local storage  
+    if(uniqueLocalStorageKey === null || currentTopScore <=this.state.score){
+      //transform the cases array into a string and saves it to the brower's local storage
+      localStorage.setItem(uniqueLocalStorageKey, this.state.score);          
+    }//end of IF statment   
+  }
+
   render(){  
       return(
         <div className="row">
