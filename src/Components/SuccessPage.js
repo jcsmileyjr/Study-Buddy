@@ -5,12 +5,14 @@ import {Button} from 'react-bootstrap';
 //import action to change the SuccessPage state's showSuccessPage state to false therefore hiding it.
 import {successPageFalse} from '../Actions/hideSuccessPageAction.js';
 
-
 //Redux action to reset the questionsAnswered state to zero
 import {resetQuestionsAnswered} from '../Actions/resetquestionAnsweredActions.js';
 
 //Redux action to reset the count state to zero
 import {resetCorrectAnswer} from '../Actions/resetCountActions.js';
+
+//Redux action to reset the streak state if the user miss a answer
+import {resetStreak} from '../Actions/resetStreakActions.js';
 
 //import action to reset the Score state to zero
 import {clearScore} from '../Actions/clearScoreActions.js';
@@ -100,6 +102,7 @@ class SuccessPage extends Component{
       
     this.props.onResetLevel(); // go to the next quiz level by updating the state by one
     this.resetGameState();//a series of Redux actions that reset the game state to get ready for the next game 
+    this.props.onResetStreak();//if the user answers incorrectly, reset the streak Redux state   
   }
   
   //a series of Redux actions that reset the game state to get ready for the next game
@@ -107,7 +110,7 @@ class SuccessPage extends Component{
     this.props.onClosePage();//sets the successPage state to false, therefore closing the Success page
     this.props.onresetQuestionsAnswered();//reset the number of questions answer counter to 0
     this.props.onresetCorrectAnswer(); //reset the number questions answered correctly to 0
-    this.props.onresetScore();//reset the score  in the state       
+    this.props.onresetScore();//reset the score  in the state    
   }
   
   render(){  
@@ -133,6 +136,7 @@ const mapActionsToProps = {
     onresetQuestionsAnswered: resetQuestionsAnswered,
     onresetCorrectAnswer: resetCorrectAnswer,
     onNextLevel: goToNextLevel,
+    onResetStreak: resetStreak,    
     onResetLevel: resetLevel,
     onresetScore: clearScore
 };
