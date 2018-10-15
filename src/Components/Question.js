@@ -74,7 +74,9 @@ displayAllAnswers(){
       
     return(
       <div className="row text-center">
+         
 	    <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <h4>STREAK</h4>
 		  <h3>
 	  	    {currentQuestion}
             
