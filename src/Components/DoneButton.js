@@ -7,6 +7,12 @@ import * as RandomAnswers from '../SharedFunctions/RandomAnswers.js';
 //Redux action to update the questionsAnswered state by one
 import {addQuestionsAnswered} from '../Actions/questionAnsweredActions.js';
 
+//Redux action to update the streak state by one when the user answers correctly
+import {addStreak} from '../Actions/addStreakActions.js';
+
+//Redux action to reset the streak state if the user miss a answer
+import {resetStreak} from '../Actions/resetStreakActions.js';
+
 //Redux action to update the score state by returning a new score
 import {updateScore} from '../Actions/scoreActions.js';
 
@@ -116,11 +122,15 @@ class DoneButton extends Component{
             this.props.onUpdateTrueFalseQuizAnswer(startTrueFalseQuizAnswer);// updated the state so its value can be displayed below              
           }		      
        
+          //This updates the count state when the user answers correctly during the quiz level 3. 
           //Compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count. 
           if(this.props.currentQuizLevel === 3){                
             if(this.props.currentTrueFalseUserAnswer.truefalse === true){                
                 this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions	
-            }
+              this.props.onAddStreak(); //if the user answers correctly, add one to the streak Redux state
+	      }else{
+              this.props.onResetStreak();//if the user answers incorrectly, reset the streak Redux state
+          } 
               
           }
       }//end of else statement          
@@ -159,6 +169,8 @@ const mapStateToProps = state =>({
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store such as questions answer, current score, user selected answer, whether to show the SuccessPage, move the player to the next level, and current value of showPass.
 const mapActionsToProps = {
   onAddQuestionsAnswered: addQuestionsAnswered,
+  onAddStreak: addStreak,
+  onResetStreak: resetStreak,
   onUpdateScore: updateScore,
   onHidePassAnswers: showCSSFail,
   onClearUserAnswer: clearUserAnswer,

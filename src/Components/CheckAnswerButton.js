@@ -6,6 +6,12 @@ import {connect} from 'react-redux';
 //Redux action to update the count state by one
 import {addCorrectAnswer} from '../Actions/correctCountActions.js';
 
+//Redux action to update the streak state by one when the user answers correctly
+import {addStreak} from '../Actions/addStreakActions.js';
+
+//Redux action to reset the streak state if the user miss a answer
+import {resetStreak} from '../Actions/resetStreakActions.js';
+
 //Redux action to update the test state with a new test
 import {updatePassFail} from '../Actions/testActions.js';
 
@@ -47,29 +53,34 @@ class CheckAnswerButton extends Component{
   //Method use when user click the button. It adds one to the  correct answer count if the user selected answer is correct
   onCheckAnswer = event => {
       
+    //This updates the count state when the user answers correctly during the quiz level 1  
     if(this.props.currentQuizLevel === 1){
 	  //Test if the current user selected answer is equal to the correct answer for this question in the Redux store
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer){
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions
-	  }         
+          this.props.onAddStreak(); //if the user answers correctly, add one to the streak Redux state
+	  }else{
+          this.props.onResetStreak();//if the user answers incorrectly, reset the streak Redux state
+      }         
     }
-      
+     
+    //This updates the count state when the user answers correctly during the quiz level 2    
     if(this.props.currentQuizLevel ===2){
       const currentTrueFalseChoice = this.props.currentTrueFalseUserAnswer.truefalse; //get the user true or false choice
-       
-      //Compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count.     
+  
+      //First, compare the random answer given to the correct answer for the current problem. If both is the same and the user choose true then add one to correct answer count. Second, compare the random answer given to the correct answer for the current problem. If the random answer incorrect and the user choose false, then one is added to the correct answer count. In both cases if the answer is corret add one to the Streak State and if incorrect reset the Streak state.      
 	  if(this.props.currentAnswer.userAnswer === this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === true){
 		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions
-	  }
-    
-      //Compare the random answer given to the correct answer for the current problem. If the random answer incorrect and the user choose false, then one is added to the correct answer count.      
-	  if(this.props.currentAnswer.userAnswer !== this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === false){
-		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions           
-
-	  }        
-    } 
+          this.props.onAddStreak();//if the user answers correctly, add one to the streak Redux state
+	  }else if(this.props.currentAnswer.userAnswer !== this.props.currentTest[this.props.questionsAnswered.questionAnswered].answer && currentTrueFalseChoice === false){
+		  this.props.onAddCorrectAnswer(); //If the condition above is true, add one to the current count of correctly answered questions         
+          this.props.onAddStreak();//if the user answers correctly, add one to the streak Redux state
+	  }else{
+          this.props.onResetStreak();//if the user answers incorrectly, reset the streak Redux state
+      }     
+    }  
+    this.showCorrectAnswer();//send an Redux action to return true to the Redux store, thus showing the CSS (green/correct and red/incorrect) of the displayed answers.
       
-	  this.showCorrectAnswer();//send an Redux action to return true to the Redux store, thus showing the CSS (green/correct and red/incorrect) of the displayed answers.
   }	
 
   render(){
@@ -95,6 +106,8 @@ const mapStateToProps = state =>({
 //map the imported Redux actions to a local method to be used by the component. This will allow the components to change the state of the Redux store such as correct answer count, updated test (array of questions and answers), and the showPassFail state (true/false).
 const mapActionsToProps = {
   onAddCorrectAnswer: addCorrectAnswer,
+  onAddStreak: addStreak,
+  onResetStreak: resetStreak,
   onUpdatePassFail: updatePassFail,
   onShowPassAnswers: showCSSPass
 };

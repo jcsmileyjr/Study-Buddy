@@ -15,6 +15,9 @@ import correctAnsweredCount from './Reducers/correctAnsweredCount.js';
 //Redux reducer to create a count of questons answered
 import questionAnsweredCount from './Reducers/questionAnsweredCount.js';
 
+//Redux reducer to create a count of questions answer correctly in a row
+import streak from './Reducers/streak.js';
+
 //Redux reducer to store the current score
 import updateScore from './Reducers/score.js';
 
@@ -40,6 +43,7 @@ const allReducers = combineReducers({
 	count: correctAnsweredCount, //current count of correctly answered questions
 	answered: questionAnsweredCount, //current count of questions answer
 	score: updateScore, //current score
+    streak: streak, //current streak of questions answered correctly
 	userAnswer: currentUserAnswer, //current user selected answer
 	test: test, //array of questions and answers
 	passFail: currentPassFail, //true or false to show/hide CSS of answers
