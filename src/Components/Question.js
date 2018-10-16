@@ -50,14 +50,18 @@ class Question extends Component {
     this.state= {show:false};
   }
     
-
+//create an array of answers to be display in the hints list when the user press the notpad icon by the question.
 displayAllAnswers(){
     
-  const allAnswers = this.props.question;
+  const allAnswers = this.props.question;//get array of questions and answers
+    
+  //create a new alphabetical sorted array with just the answers
+  const newList = allAnswers.map(function(question){return question.answer}).sort();    
 	
-  const listAllAnswers = allAnswers.map((answers, index) =>
+  //create an list array to be displayed in the hints pop up box    
+  const listAllAnswers = newList.map((answers, index) =>
 	<li className={css(styles.removeListBullets)} key={index}>
-		<label>{answers.answer}</label>				   
+		<label>{answers}</label>				   
 	</li>									   
   );
 	
