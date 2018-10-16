@@ -16,8 +16,13 @@ const styles = StyleSheet.create({
   },
   
   buttonTextColor:{
-	color: "black" //button text is black
+	color: "black", //button text is black
+    marginTop: "20px"
   },
+    
+  centerText:{
+      textAlign: "center"
+  },    
     
   //add whitespace between the radio button and the answer	
   indentAnswerOptions:{
@@ -49,9 +54,14 @@ const styles = StyleSheet.create({
   correctAnswer:{
 	  color: "green",
 	  fontSize: "1.2em"
-  }		
-	
+  }
 });
+
+const intructionsArray = [
+      "Click an option to choose an answer!",
+      "Click the 'Check Answer' button to submit!",
+      "Press the 'Done' button to continue"
+]; 
 
 //Display three answers as radio input controls. One answer is the correct answer and the other two are random incorrect answers. The component use the current array of questions/answers and current count of questions answer to determine the correct answer. All styles are applied to each answer but are turn on and off based on the passFail attribute of each answer. 
 class MCAnswersList extends Component{
@@ -100,6 +110,19 @@ class MCAnswersList extends Component{
 	
 	return listOfAnswers;
   }
+  
+  //function to create an array of instructions to be displayed
+  displayInstructions(){
+	
+    //create a array of instructions as <li> to be displayed. 
+    const listOfInstructions = intructionsArray.map((instructions, index) =>
+	  <li key={index}>
+        <input type="checkbox" checked />{instructions}                                            
+	  </li>									   
+    );
+	
+	return listOfInstructions;
+  }  
 
   //function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
   isAnswerPass(checkAnswer){	
@@ -140,13 +163,14 @@ class MCAnswersList extends Component{
             <Modal.Header className={css(styles.orangeBackground)} closeButton>
               <Modal.Title>Multiple Choice Test</Modal.Title>
             </Modal.Header>
-            <Modal.Body className="text-center">
-              <p>Click an option to choose an answer!</p>
-              <p>Click the "Check Answer" button to submit!</p>
-              <p>Press the "Done" button to continue</p>
+            <Modal.Body>
+              <h2 className={css(styles.centerText)}>Instructions</h2>
+              <div className="text-left col-xs-11 col-xs-offset-1 col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-3 col-lg-8 col-lg-offset-3">
+              <ul className={css(styles.removeListBullets)}>{this.displayInstructions()}</ul>
+              </div>
             </Modal.Body>
-            <Modal.Footer className={css(styles.orangeBackground)}>
-              <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.hideMCInstructions}>Close</Button>
+            <Modal.Footer className={css(styles.centerText)}>
+              <Button className={css(styles.buttonTextColor)} bsStyle="warning" onClick={this.hideMCInstructions}>Close</Button>
             </Modal.Footer>
           </Modal>
 		</div>  
