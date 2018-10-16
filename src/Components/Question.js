@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     
   orangeBackground:{
       textAlign: "center",      
-      backgroundColor: '#FFCC80'
+      backgroundColor: 'orange'
   },
   
   buttonTextColor:{

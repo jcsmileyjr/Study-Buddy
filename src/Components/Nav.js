@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 const styles = StyleSheet.create({
   navBackground:{
-	  backgroundColor: '#FFCC80',
+	  backgroundColor: 'orange',
 	  color: 'black'
   }	
 	
