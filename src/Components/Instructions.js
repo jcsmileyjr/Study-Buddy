@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 	
   /*remove the bullets and indention from the lists displaying the cases*/
   removeListBullets: {
-	  listStyleType: "none",
+	  listStyleType: "square",
   	  margin: "0px",
 	  padding: "0px"
   },
@@ -104,7 +104,7 @@ function doNotShowInstructions(){
     //create a array of instructions as <li> to be displayed. 
     const listOfInstructions = currentArray.map((instructions, index) =>
 	  <li key={index}>
-        <input  type="checkbox" defaultChecked />{instructions}                                            
+        {instructions}                                            
 	  </li>									   
     );
 	
