@@ -89,11 +89,11 @@ saveFalseAnswer = () =>{
 		  </div>
           <div className="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
             <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} />
-            <label className={css(styles.indentAnswerOptions)}> True </label>
+            <label className={css(styles.indentAnswerOptions)}> Correct </label>
           </div>
           <div className="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
             <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={false}  onClick={this.saveFalseAnswer} />
-            <label className={css(styles.indentAnswerOptions)}> False </label>
+            <label className={css(styles.indentAnswerOptions)}> Incorrect </label>
           </div>
 		</div>  
 	  );

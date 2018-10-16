@@ -36,23 +36,42 @@ const styles = StyleSheet.create({
   }
 });
 
-const instructionsArray = [
+const MCArray = [
       "Click an option to choose an answer!",
       "Click the 'Check Answer' button to submit!",
+      "Press the 'Done' button to continue"
+];
+
+const TFArray = [
+      "Click True if the anwer is correct, false if incorrect!",
+      "Click the 'Check Answer' button to submit!",
+      "Press the 'Done' button to continue"
+];
+
+const FBArray = [
+      "Type in your answer!",
+      "Click the 'Check Answer' button to submit!",
+      "You decide if your anwer is correct or incorrect",
       "Press the 'Done' button to continue"
 ]; 
 
 function Instructions(props){ 
     
-  let currentArray = []    
+  let currentArray = [];
+    
+  let currentTitle = "";    
 
   //function to create an array of instructions to be displayed
   function displayInstructions(level){
 	
     if(level === 1){
-        currentArray = instructionsArray;
-    }  
-      
+        currentArray = MCArray;
+    }else if(level === 2){
+        currentArray = TFArray;
+    }else {
+        currentArray = FBArray;
+    }
+        
     //create a array of instructions as <li> to be displayed. 
     const listOfInstructions = currentArray.map((instructions, index) =>
 	  <li key={index}>
@@ -61,12 +80,26 @@ function Instructions(props){
     );
 	
 	return listOfInstructions;
-  } 
+  }
+    
+  //functin to get a title for the pop up based on the current quiz level    
+  function getCurrentTitle(level){
+    if(level === 1){
+        currentTitle = "Multiple Choice Test";
+    }else if(level === 2){
+        currentTitle = "True or False Test";
+    }else{
+        currentTitle = "Fill in the Blank Test";
+    }
+      
+    return currentTitle;  
+  }
+    
    return(
      <div>
           <Modal show={props.show} onHide={props.hideMCInstructions}>
             <Modal.Header className={css(styles.orangeBackground)} closeButton>
-              <Modal.Title>Multiple Choice Test</Modal.Title>
+              <Modal.Title>{getCurrentTitle(props.currentQuizLevel)}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <h2 className={css(styles.centerText)}>Instructions</h2>
