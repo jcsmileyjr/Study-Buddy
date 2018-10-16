@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
 	  listStyleType: "none",
   	  margin: "0px",
 	  padding: "0px"
+  },
+    
+  marginBtwButtons:{
+      marginLeft: "20px"
   }
 });
 
@@ -109,6 +113,7 @@ function Instructions(props){
             </Modal.Body>
             <Modal.Footer className={css(styles.centerText)}>
               <Button className={css(styles.buttonTextColor)} bsStyle="warning" onClick={props.hideMCInstructions}>Close</Button>
+              {props.currentQuizLevel === 3 && <Button className={css(styles.buttonTextColor, styles.marginBtwButtons)} bsStyle="danger" onClick={props.hideMCInstructions}>Do not show Instructions</Button>}
             </Modal.Footer>
           </Modal>
      </div>
