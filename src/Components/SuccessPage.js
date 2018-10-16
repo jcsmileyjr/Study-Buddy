@@ -133,7 +133,8 @@ class SuccessPage extends Component{
   setTopScore(){
     
     //create a unique key for the current test and quiz level. Format name + Quiz + level
-    const uniqueLocalStorageKey = "testQuiz" + this.props.currentQuizLevel;
+    //This key need to be change in the SuccessPage and TopScore components to work
+    const uniqueLocalStorageKey = "geneticsQuiz" + this.props.currentQuizLevel;
     
     //get the current score or null from local storage  
     const currentTopScore = localStorage.getItem(uniqueLocalStorageKey);

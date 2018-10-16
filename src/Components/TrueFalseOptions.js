@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import * as RandomAnswers from '../SharedFunctions/RandomAnswers.js';
+import Instructions from './Instructions.js';
 
 import {getUserAnswer} from '../Actions/userAnswerActions.js';//import action to update the randomly selected answer to the userAnswer state to enable the checkAnswerButton and to check if the answer is correct
 
@@ -40,46 +41,62 @@ const styles = StyleSheet.create({
 	
 });
 
-//?????????????????????????????? 
+//Componet for the second quiz level that display a true and false option to the user. 
 class TrueFalseOptions extends Component{
-   
-componentDidMount(){
-let startTrueFalseQuizAnswer = this.displayAnswers();//get random answer to be displayed    
-this.props.onUpdateTrueFalseQuizAnswer(startTrueFalseQuizAnswer);// updated the state so its value can be displayed below
-} 
-	
-//function to returns a random answer to be shown to the user for the user to decide if its true or false. Only ran when the app starts. 
-displayAnswers(){
-	
-  //list of questions and answers from the test state	
-  const arrayofAnswers = this.props.answerList;	
-    
-  //current index of the test based off of how many questions the user has answered. This information is from the currentAnsweredCount state	
-  const location = 	this.props.currentLocation;    
-    
-  //get the current answer of the current test based on location using a function from the imported RandomAnswers file.	
-  const currentAnswer = RandomAnswers.getCurrentAnswer(location, arrayofAnswers);
-	
-  //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
-  const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);    
-    
-  //get a random answer from the randomAnswers array to be displayed    
-  const displayedRandomAnswer = randomAnswers[Math.floor(Math.random() * randomAnswers.length)];	
-	
-  return displayedRandomAnswer.answer;
-}
+  constructor(props){
+    super(props);
+    this.state= {show:false};
+  }    
 
-//method that calls a Redux action to save the user selected anwer to the Redux state and update true or false to the state.
-saveTrueAnswer = () =>{
+  componentDidMount(){
+    let startTrueFalseQuizAnswer = this.displayAnswers();//get random answer to be displayed    
+    this.props.onUpdateTrueFalseQuizAnswer(startTrueFalseQuizAnswer);// updated the state so its value can be displayed below
+    
+    this.showMCInstructions();     
+  } 
+	
+  //function to returns a random answer to be shown to the user for the user to decide if its true or false. Only ran when the app starts. 
+  displayAnswers(){
+	
+    //list of questions and answers from the test state	
+    const arrayofAnswers = this.props.answerList;	
+    
+    //current index of the test based off of how many questions the user has answered. This information is from the currentAnsweredCount state	
+    const location = 	this.props.currentLocation;    
+    
+    //get the current answer of the current test based on location using a function from the imported RandomAnswers file.	
+    const currentAnswer = RandomAnswers.getCurrentAnswer(location, arrayofAnswers);
+	
+    //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
+    const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);    
+    
+    //get a random answer from the randomAnswers array to be displayed    
+    const displayedRandomAnswer = randomAnswers[Math.floor(Math.random() * randomAnswers.length)];	
+	
+    return displayedRandomAnswer.answer;
+  }
+
+  //method that calls a Redux action to save the user selected anwer to the Redux state and update true or false to the state.
+  saveTrueAnswer = () =>{
 	this.props.onUpdateTrueAnswer();
     this.props.onUpdateUserAnswer(this.props.currentQuizAnswer);
-}
+  }
 
-//method that calls a Redux action to save the user selected anwer to the Redux state
-saveFalseAnswer = () =>{
+  //method that calls a Redux action to save the user selected anwer to the Redux state
+  saveFalseAnswer = () =>{
 	this.props.onUpdateFalseAnswer();
     this.props.onUpdateUserAnswer(this.props.currentQuizAnswer);
-}
+  }
+
+  //when the user click the notepad icon, the M.C. Instructions pop up is displayed
+  showMCInstructions = () =>{
+    this.setState({show: true});
+  }
+  
+  //close the M.C. Instructions pop up
+  hideMCInstructions = () =>{
+    this.setState({show: false});
+  } 
 
   render(){      
 	  return(
@@ -95,6 +112,7 @@ saveFalseAnswer = () =>{
             <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={false}  onClick={this.saveFalseAnswer} />
             <label className={css(styles.indentAnswerOptions)}> False </label>
           </div>
+          <Instructions show={this.state.show} hideMCInstructions={this.hideMCInstructions} />                              
 		</div>  
 	  );
   }

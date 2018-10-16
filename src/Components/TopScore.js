@@ -6,7 +6,8 @@ let currentTopScore = null; //Set the top score to null to hide it if local stor
 //Check the local storage for a unique quiz key, if found then load the data to currentTopScore
 function getTopScore(level){      
   //create a unique key for the current test and quiz level. Format name + Quiz + level
-  const uniqueLocalStorageKey = "testQuiz" + level;
+  //This key need to be change in the SuccessPage and TopScore components to work    
+  const uniqueLocalStorageKey = "geneticsQuiz" + level;
       
   if(localStorage.getItem(uniqueLocalStorageKey)){
     currentTopScore = localStorage.getItem(uniqueLocalStorageKey);//if true, load with local storage data

@@ -69,11 +69,12 @@ displayAllAnswers(){
    
 }    
     
-
+  //when the user click the notepad icon, the Hints list pop up is displayed
   showListOfAnswers = () =>{
     this.setState({show: true});
   }
   
+  //close the Hint list pop up
   hideListOfAnswers = () =>{
     this.setState({show: false});
   }  

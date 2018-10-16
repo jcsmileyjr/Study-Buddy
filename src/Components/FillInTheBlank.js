@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
+import Instructions from './Instructions.js';
 
 import {userChooseFalse} from '../Actions/userFalseAnswerActions.js';//import action to update the user's choice to the TrueFalseAnswer state
 
@@ -43,6 +44,24 @@ function TrueFalseOptions (props){
 
 //Quiz level three main component that allows the user to input an answer, then shown the correct answer, and then grade herself/himself. 
 class FillInTheBlank extends Component{
+  constructor(props){
+    super(props);
+    this.state= {show:false};
+  } 
+
+  componentDidMount(){    
+    this.showMCInstructions();     
+  }
+
+  //when the user click the notepad icon, the M.C. Instructions pop up is displayed
+  showMCInstructions = () =>{
+    this.setState({show: true});
+  }
+  
+  //close the M.C. Instructions pop up
+  hideMCInstructions = () =>{
+    this.setState({show: false});
+  } 
 
   //method that calls a Redux action to save the user selected anwer to the Redux state and update true or false to the state.
   saveTrueAnswer = () =>{
@@ -82,8 +101,9 @@ class FillInTheBlank extends Component{
 			<label className={css(styles.labelWhiteSpace)}>{this.props.answerList[this.props.currentLocation].answer}</label>
 		  </div>}
           
-          {this.props.currentPassFail && <TrueFalseOptions choice="true" answerChoice={this.saveTrueAnswer}/>}
-          {this.props.currentPassFail && <TrueFalseOptions choice="false" answerChoice={this.saveFalseAnswer} />}
+          {this.props.currentPassFail && <TrueFalseOptions choice="Correct" answerChoice={this.saveTrueAnswer}/>}
+          {this.props.currentPassFail && <TrueFalseOptions choice="Incorrect" answerChoice={this.saveFalseAnswer} />}
+          <Instructions show={this.state.show} hideMCInstructions={this.hideMCInstructions} /> 
 		</div>  
 	  );
   }
