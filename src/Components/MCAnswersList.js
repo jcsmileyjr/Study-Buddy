@@ -110,7 +110,7 @@ saveUserAnswer = event =>{
   render(){	
 	  return(
 		<div className={`row ${css(styles.indentAnswerOptions)}`}>
-		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+		  <div className="col-xs-8 col-xs-offset-3 col-sm-8 col-sm-offset-3 col-md-10 col-md-offset-2 col-lg-8 col-lg-offset-3">
 			<ul className={css(styles.removeListBullets)}>{this.displayAnswers()}</ul>
 		  </div>		
 		</div>  

@@ -1,5 +1,6 @@
 import React, {Component}  from 'react';
 import {connect} from 'react-redux';
+import { StyleSheet, css } from 'aphrodite';
 import {Button} from 'react-bootstrap';
 
 //import action to change the SuccessPage state's showSuccessPage state to false therefore hiding it.
@@ -20,6 +21,20 @@ import {clearScore} from '../Actions/clearScoreActions.js';
 import {goToNextLevel} from '../Actions/nextLevelAction.js';//import action to move the player to the next level of the test
 
 import {resetLevel} from '../Actions/resetLevelAction.js';//import action to move the player to the first level of the test
+
+const styles = StyleSheet.create({
+  //create stripe grey lines throughout the app background as long as there is content	
+  appBackground:{
+	  minHeight: "100%",
+      '@media (min-width: 500px)': {
+      marginLeft: "auto",
+	  marginRight: "auto",
+      float: "none !important",
+	  marginTop: "150px"		
+      }	
+  }
+	
+});
 
 //UI to be displayed if all three levels of the test have been completed and passed 
 function EndOfGamePass (props){    
@@ -132,7 +147,7 @@ class SuccessPage extends Component{
 
   render(){  
       return(
-        <div className="row">
+        <div className={`row ${css(styles.appBackground)}`}>
           {(this.props.currentQuizLevel <= 2) && <NextGame continue={this.onCloseSuccessPage} message={this.displayMessage()} />}
           {(this.props.currentQuizLevel >= 3 && this.state.score >= 75) && <EndOfGamePass continue={this.onRestartGame} score={this.state.score} />}
           {(this.props.currentQuizLevel >= 3 && this.state.score < 75) && <EndOfGameFail continue={this.onRestartGame} score={this.state.score} />}
