@@ -61,6 +61,10 @@ const FBArray = [
 
 let enableInstructions = true; //Use to disable instructions
 
+
+
+function Instructions(props){ 
+    
 //Check the local storage for a unique quiz key, if found then load the data to currentTopScore
 function checkdisableInstructions(){      
   
@@ -75,16 +79,16 @@ function checkdisableInstructions(){
 
 //EnableInstructions is set at true. If the user press the "Do not show Instructions" button, enableInstructins is set to false and save to local storage.
 function doNotShowInstructions(){   
-console.log("it works");    
+   
   //Save the new false variable to local storage    
-  localStorage.setItem("disableInstructions", false);     
-}
-
-function Instructions(props){ 
+  localStorage.setItem("disableInstructions", false);
     
-  let currentArray = [];
+  props.hideMCInstructions()//close the pop up instructions    
+}    
     
-  let currentTitle = "";    
+  let currentArray = [];//holds the current instruction array based on quiz level
+    
+  let currentTitle = "";//hlds the current pop up title baed on quiz level    
 
   //function to create an array of instructions to be displayed
   function displayInstructions(level){
