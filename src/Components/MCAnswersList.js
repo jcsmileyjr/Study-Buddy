@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Modal, Button} from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import * as RandomAnswers from '../SharedFunctions/RandomAnswers.js';
@@ -8,6 +9,16 @@ import {getUserAnswer} from '../Actions/userAnswerActions.js';//import action to
 import {updateMCQuizAnswer} from '../Actions/updateMCQuizAnswers.js';//import action to update the array of answer use on the MCAnswersList to the state
 
 const styles = StyleSheet.create({
+    
+  orangeBackground:{
+      textAlign: "center",      
+      backgroundColor: 'orange'
+  },
+  
+  buttonTextColor:{
+	color: "black" //button text is black
+  },
+    
   //add whitespace between the radio button and the answer	
   indentAnswerOptions:{
 	  textIndent: "5%"
@@ -44,75 +55,100 @@ const styles = StyleSheet.create({
 
 //Display three answers as radio input controls. One answer is the correct answer and the other two are random incorrect answers. The component use the current array of questions/answers and current count of questions answer to determine the correct answer. All styles are applied to each answer but are turn on and off based on the passFail attribute of each answer. 
 class MCAnswersList extends Component{
-    
-componentDidMount(){
-let startMCQuizAnswers = this.getMCAnswers();//get random answer to be displayed    
-this.props.onUpdateMCQuizAnswers(startMCQuizAnswers);// updated the state so its value can be displayed below
-}   
-    
-//function to create an array of options to be displayed
-getMCAnswers(){
-	
-  //list of questions and answers from the test state	
-  const arrayofAnswers = this.props.answerList;
-    
-  //current index of the test based off of how many questions the user has answered. This information is from the currentAnsweredCount state	
-  const location = 	(this.props.currentLocation).questionAnswered;     
+  constructor(props){
+    super(props);
+    this.state= {show:false};
+  }    
   
-  //get the current answer of the current test based on location using a function from the imported RandomAnswers file.	
-  const currentAnswer = RandomAnswers.getCurrentAnswer(location, arrayofAnswers);
-	
-  //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
-  const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);
+  componentDidMount(){
+    let startMCQuizAnswers = this.getMCAnswers();//get random answer to be displayed    
+    this.props.onUpdateMCQuizAnswers(startMCQuizAnswers);// updated the state so its value can be displayed below
+    this.showMCInstructions();  
+  }   
     
-  return randomAnswers;    
-}
+  //function to create an array of options to be displayed
+  getMCAnswers(){
+	
+    //list of questions and answers from the test state	
+    const arrayofAnswers = this.props.answerList;
     
-//function to create an array of options to be displayed
-displayAnswers(){
-
+    //current index of the test based off of how many questions the user has answered. This information is from the currentAnsweredCount state	
+    const location = (this.props.currentLocation).questionAnswered;     
+  
+    //get the current answer of the current test based on location using a function from the imported RandomAnswers file.	
+    const currentAnswer = RandomAnswers.getCurrentAnswer(location, arrayofAnswers);
 	
-  //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
-  const randomAnswers = this.props.currentQuizAnswer;	
+    //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
+    const randomAnswers = RandomAnswers.getRandomThreeAnswers(arrayofAnswers, currentAnswer);
+    
+    return randomAnswers;    
+  }
+    
+  //function to create an array of options to be displayed
+  displayAnswers(){
 	
-  //create a array of options as <li> to be displayed as answers. When the user select answer, the value is updated to the userAnswer state	
-  const listOfAnswers = randomAnswers.map((answers, index) =>
-	<li key={index}>
+    //create an array with a random two incorrect answers and the correct answered using a function from the imported RandomAnswers file.
+    const randomAnswers = this.props.currentQuizAnswer;	
+	
+    //create a array of options as <li> to be displayed as answers. When the user select answer, the value is updated to the userAnswer state	
+    const listOfAnswers = randomAnswers.map((answers, index) =>
+	  <li key={index}>
 	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} />
-		<label className={css(this.props.currentPassFail.passFail && (answers.answer === this.props.answerList[this.props.currentLocation.questionAnswered].answer) && styles.correctAnswer, this.props.currentPassFail.passFail && (answers.answer !== this.props.answerList[this.props.currentLocation.questionAnswered].answer) && styles.wrongAnswers)}>{answers.answer}</label>				   
-	</li>									   
-  );
+		<label className={css(this.props.currentPassFail.passFail && (answers.answer === this.props.answerList[this.props.currentLocation.questionAnswered].answer) && styles.correctAnswer, this.props.currentPassFail.passFail && (answers.answer !== this.props.answerList[this.props.currentLocation.questionAnswered].answer) && styles.wrongAnswers)}>{answers.answer}</label>			   
+	  </li>									   
+    );
 	
 	return listOfAnswers;
-}
+  }
 
-
-
-//function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
-isAnswerPass(checkAnswer){	
-  if(checkAnswer.passFail === "pass"){
+  //function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
+  isAnswerPass(checkAnswer){	
+    if(checkAnswer.passFail === "pass"){
 	  return true;
-  }  
-}
+    }  
+  }
 
-//function used in the displayAnswers() to check if the current answer object passFail attribute is "fail" and return true. This will update the CSS tot the wrongAnswers style.
-isAnswerFail(checkAnswer){	
-  if(checkAnswer.passFail === "fail"){
+  //function used in the displayAnswers() to check if the current answer object passFail attribute is "fail" and return true. This will update the CSS tot the wrongAnswers style.
+  isAnswerFail(checkAnswer){	
+    if(checkAnswer.passFail === "fail"){
 	  return true;
-  }  
-}
+    }  
+  }
 
-//method that calls a Redux action to save the user selected anwer to the Redux state
-saveUserAnswer = event =>{
-	this.props.onUpdateUserAnswer(event.target.value);
-}
+  //method that calls a Redux action to save the user selected anwer to the Redux state
+  saveUserAnswer = event =>{
+  	this.props.onUpdateUserAnswer(event.target.value);
+  }
+
+  //when the user click the notepad icon, the M.C. Instructions pop up is displayed
+  showMCInstructions = () =>{
+    this.setState({show: true});
+  }
+  
+  //close the M.C. Instructions pop up
+  hideMCInstructions = () =>{
+    this.setState({show: false});
+  }  
 
   render(){	
 	  return(
 		<div className={`row ${css(styles.indentAnswerOptions)}`}>
 		  <div className="col-xs-8 col-xs-offset-3 col-sm-8 col-sm-offset-3 col-md-10 col-md-offset-2 col-lg-8 col-lg-offset-3">
 			<ul className={css(styles.removeListBullets)}>{this.displayAnswers()}</ul>
-		  </div>		
+		  </div>
+          <Modal show={this.state.show} onHide={this.hideMCInstructions}>
+            <Modal.Header className={css(styles.orangeBackground)} closeButton>
+              <Modal.Title>Multiple Choice Test</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="text-center">
+              <p>Click an option to choose an answer!</p>
+              <p>Click the "Check Answer" button to submit!</p>
+              <p>Press the "Done" button to continue</p>
+            </Modal.Body>
+            <Modal.Footer className={css(styles.orangeBackground)}>
+              <Button className={css(styles.buttonTextColor)} bsStyle="success" onClick={this.hideMCInstructions}>Close</Button>
+            </Modal.Footer>
+          </Modal>
 		</div>  
 	  );
   }
