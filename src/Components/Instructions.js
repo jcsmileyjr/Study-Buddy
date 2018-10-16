@@ -57,7 +57,28 @@ const FBArray = [
       "Click the 'Check Answer' button to submit!",
       "You decide if your anwer is correct or incorrect",
       "Press the 'Done' button to continue"
-]; 
+];
+
+let enableInstructions = true; //Use to disable instructions
+
+//Check the local storage for a unique quiz key, if found then load the data to currentTopScore
+function checkdisableInstructions(){      
+  
+  const disable = "disableInstructions";
+      
+  if(localStorage.getItem(disable)){
+    enableInstructions = localStorage.getItem(disable);//if true, load with local storage data
+  }else{
+    enableInstructions = true;//if false, set varible to false to hide the component
+  }      
+}
+
+//EnableInstructions is set at true. If the user press the "Do not show Instructions" button, enableInstructins is set to false and save to local storage.
+function doNotShowInstructions(){   
+console.log("it works");    
+  //Save the new false variable to local storage    
+  localStorage.setItem("disableInstructions", false);     
+}
 
 function Instructions(props){ 
     
@@ -98,7 +119,9 @@ function Instructions(props){
       
     return currentTitle;  
   }
-    
+  
+  if(enableInstructions === true){ 
+    checkdisableInstructions();  
    return(
      <div>
           <Modal show={props.show} onHide={props.hideMCInstructions}>
@@ -113,11 +136,14 @@ function Instructions(props){
             </Modal.Body>
             <Modal.Footer className={css(styles.centerText)}>
               <Button className={css(styles.buttonTextColor)} bsStyle="warning" onClick={props.hideMCInstructions}>Close</Button>
-              {props.currentQuizLevel === 3 && <Button className={css(styles.buttonTextColor, styles.marginBtwButtons)} bsStyle="danger" onClick={props.hideMCInstructions}>Do not show Instructions</Button>}
+              {props.currentQuizLevel === 3 && <Button className={css(styles.buttonTextColor, styles.marginBtwButtons)} bsStyle="danger" onClick={doNotShowInstructions}>Do not show Instructions</Button>}
             </Modal.Footer>
           </Modal>
      </div>
     );
+  }else{
+      return null
+    }
 }
 
 /*Use Redux to get the current quiz level*/
