@@ -43,20 +43,23 @@ const styles = StyleSheet.create({
 const MCArray = [
       "Click an option to choose an answer!",
       "Click the 'Check Answer' button to submit!",
-      "Press the 'Done' button to continue"
+      "Press the 'Done' button to continue",
+      "Tip: Click on the orange notepad to see a list of answers"
 ];
 
 const TFArray = [
       "Click True if the anwer is correct, false if incorrect!",
       "Click the 'Check Answer' button to submit!",
-      "Press the 'Done' button to continue"
+      "Press the 'Done' button to continue",
+      "Tip: Click on the orange notepad to see a list of answers"
 ];
 
 const FBArray = [
       "Type in your answer!",
       "Click the 'Check Answer' button to submit!",
       "You decide if your anwer is correct or incorrect",
-      "Press the 'Done' button to continue"
+      "Press the 'Done' button to continue",
+      "Tip: Click on the orange notepad to see a list of answers"
 ];
 
 let enableInstructions = true; //Use to disable instructions
