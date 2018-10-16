@@ -6,6 +6,8 @@ import {userChooseFalse} from '../Actions/userFalseAnswerActions.js';//import ac
 
 import {userChooseTrue} from '../Actions/userTrueAnswerActions.js';//import action to update the user's choice to the TrueFalseAnswer state
 
+import {getUserAnswer} from '../Actions/userAnswerActions.js';//import action to update the user's choice to the userAnswer state
+
 const styles = StyleSheet.create({
   
   labelWhiteSpace:{
@@ -29,6 +31,7 @@ const styles = StyleSheet.create({
 	
 });
 
+//radio options that allow the user to choose if they got it correct or not
 function TrueFalseOptions (props){    
   return(
     <div className={`col-xs-6 col-xs-offset-4 ${css(styles.indentAnswerOptions)}`}>
@@ -38,25 +41,40 @@ function TrueFalseOptions (props){
   );    
 }
 
+//Quiz level three main component that allows the user to input an answer, then shown the correct answer, and then grade herself/himself. 
 class FillInTheBlank extends Component{
 
-//method that calls a Redux action to save the user selected anwer to the Redux state and update true or false to the state.
-saveTrueAnswer = () =>{
+  //method that calls a Redux action to save the user selected anwer to the Redux state and update true or false to the state.
+  saveTrueAnswer = () =>{
 	this.props.onUpdateTrueAnswer();
-}
+  }
 
-//method that calls a Redux action to save the user selected anwer to the Redux state
-saveFalseAnswer = () =>{
+  //method that calls a Redux action to save the user selected anwer to the Redux state
+  saveFalseAnswer = () =>{
 	this.props.onUpdateFalseAnswer();
-}
+  }
+
+  //Bug Fix: Instead of a Reset button, when the user press the DoneButton the input field is cleared. This method saves the user answer to Redux state and is later remove via Redux actions
+  onInputUserAnswer = event => {
+    event.preventDefault(); //not sure    
+    this.props.onUpdateUserAnswer(event.target.value);
+  }
+
+  //tip @ https://til.hashrocket.com/posts/ciwaoweyl7-use-a-ref-to-autofocus-an-input
+  //Move focus to input button
+  focusInput = (component) => {
+    if(component){
+      component.focus();
+    }
+  }
+
     
   render(){      
 	  return(
 		<div className="row ">
 		  <div className="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 text-center">
             <form>
-			  <input type="text" disabled={this.props.currentPassFail} />
-              <input className={css(styles.resetButton)} type="reset" />
+			  <input id="inputBox" type="text" disabled={this.props.currentPassFail} onChange={this.onInputUserAnswer} value={this.props.currentAnswer} ref={this.focusInput} />
             </form>
 		  </div>
 
@@ -72,6 +90,7 @@ saveFalseAnswer = () =>{
 }    
 
 const mapStateToProps = state => ({
+	currentAnswer: state.userAnswer.userAnswer,
     currentQuizLevel: state.successPage.currentLevel,
 	currentPassFail: state.passFail.passFail,
 	answerList: state.test,
@@ -79,6 +98,7 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
+  onUpdateUserAnswer: getUserAnswer,
   onUpdateTrueAnswer: userChooseTrue,
   onUpdateFalseAnswer: userChooseFalse
 };
