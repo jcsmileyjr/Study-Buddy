@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Modal, Button} from 'react-bootstrap';
 import { StyleSheet, css } from 'aphrodite';
 import {connect} from 'react-redux';
 import * as RandomAnswers from '../SharedFunctions/RandomAnswers.js';
+import Instructions from './Instructions.js';
 
 import {getUserAnswer} from '../Actions/userAnswerActions.js';//import action to update the user's choice to the userAnswer state
 
@@ -57,12 +57,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const intructionsArray = [
-      "Click an option to choose an answer!",
-      "Click the 'Check Answer' button to submit!",
-      "Press the 'Done' button to continue"
-]; 
-
 //Display three answers as radio input controls. One answer is the correct answer and the other two are random incorrect answers. The component use the current array of questions/answers and current count of questions answer to determine the correct answer. All styles are applied to each answer but are turn on and off based on the passFail attribute of each answer. 
 class MCAnswersList extends Component{
   constructor(props){
@@ -110,19 +104,6 @@ class MCAnswersList extends Component{
 	
 	return listOfAnswers;
   }
-  
-  //function to create an array of instructions to be displayed
-  displayInstructions(){
-	
-    //create a array of instructions as <li> to be displayed. 
-    const listOfInstructions = intructionsArray.map((instructions, index) =>
-	  <li key={index}>
-        <input type="checkbox" checked />{instructions}                                            
-	  </li>									   
-    );
-	
-	return listOfInstructions;
-  }  
 
   //function used in the displayAnswers() to check if the current answer object passFail attribute is "pass" and return true. This will update the CSS tot the correctAnswers style.
   isAnswerPass(checkAnswer){	
@@ -159,27 +140,11 @@ class MCAnswersList extends Component{
 		  <div className="col-xs-8 col-xs-offset-3 col-sm-8 col-sm-offset-3 col-md-10 col-md-offset-2 col-lg-8 col-lg-offset-3">
 			<ul className={css(styles.removeListBullets)}>{this.displayAnswers()}</ul>
 		  </div>
-          <Modal show={this.state.show} onHide={this.hideMCInstructions}>
-            <Modal.Header className={css(styles.orangeBackground)} closeButton>
-              <Modal.Title>Multiple Choice Test</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <h2 className={css(styles.centerText)}>Instructions</h2>
-              <div className="text-left col-xs-11 col-xs-offset-1 col-sm-9 col-sm-offset-3 col-md-8 col-md-offset-3 col-lg-8 col-lg-offset-3">
-              <ul className={css(styles.removeListBullets)}>{this.displayInstructions()}</ul>
-              </div>
-            </Modal.Body>
-            <Modal.Footer className={css(styles.centerText)}>
-              <Button className={css(styles.buttonTextColor)} bsStyle="warning" onClick={this.hideMCInstructions}>Close</Button>
-            </Modal.Footer>
-          </Modal>
+          <Instructions show={this.state.show} hideMCInstructions={this.hideMCInstructions} />
 		</div>  
 	  );
   }
 }
-/*	Issues
-- Between break points 757 - 525 the radio options are skewer to the left
-*/
 
 //map imported state of the tests and number of questions answered in the Redux store to local variables to be use by the component. 
 const mapStateToProps = state => ({
