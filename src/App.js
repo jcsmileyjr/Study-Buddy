@@ -14,10 +14,9 @@ import FillInTheBlank from './Components/FillInTheBlank.js';
 import TopScore from './Components/TopScore.js';
 
 const styles = StyleSheet.create({
-  //create stripe grey lines throughout the app background as long as there is content	
   appBackground:{
 	  minHeight: "100%",
-      '@media (min-width: 500px)': {
+      '@media (min-width: 765px) and (min-height: 850px)': {
       marginLeft: "auto",
 	  marginRight: "auto",
       float: "none !important",
