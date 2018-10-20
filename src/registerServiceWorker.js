@@ -75,6 +75,10 @@ function registerValidSW(swUrl) {
           }
         };
       };
+      Notification.requestPermission(function (status){
+          console.log(status);
+      });
+      registration.showNotification("hello world");
     })
     .catch(error => {
       console.error('Error during service worker registration:', error);
