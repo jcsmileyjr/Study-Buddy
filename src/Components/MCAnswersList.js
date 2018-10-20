@@ -141,12 +141,12 @@ class MCAnswersList extends Component{
       if(this.props.currentPassFail.passFail === true){
           let topAnswer = document.getElementById("option0");//get the element
           let middleAnswer = document.getElementById("option1");
-          let bottomeAnswer = document.getElementById("option2");
+          let bottomAnswer = document.getElementById("option2");
 
           //The below code resets the radio input options to false, giving the impression no answer has been selected. 
           topAnswer.checked = false;
           middleAnswer.checked = false;
-          bottomeAnswer.checked = false;
+          bottomAnswer.checked = false;
 
       }
   }
