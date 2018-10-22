@@ -96,20 +96,35 @@ class TrueFalseOptions extends Component{
   //close the M.C. Instructions pop up
   hideMCInstructions = () =>{
     this.setState({show: false});
-  } 
+  }
+  
+  //Bug: When the user choose an answer and click the "CheckAnswer" button, the input radio options remain selected. Even when the next question and answers are shown, the previous answer choice is selected but not offically "checked". This solves that problem by uncheckeing all options once the "CheckAnswerButton" is clicked and the passFail state is updated. This is use as a trigger to uncheck all input radio options.  
+  //A second way to do this is to set each input check to a local state. If the passFail is set to true, update the local state to true. IF false, update the local state to null or something to hide it. 
+  resetOptions = () =>{
+      //check if the "CheckAnswerButton" has been press by checking if the Redux state "passFail" is true or false
+      if(this.props.currentPassFail.passFail === true){
+          let topTFAnswer = document.getElementById("option1");
+          let bottomTFAnswer = document.getElementById("option2");
 
-  render(){      
+          //The below code resets the radio input options to false, giving the impression no answer has been selected. 
+          topTFAnswer.checked = false;
+          bottomTFAnswer.checked = false;
+      }
+  }  
+
+  render(){
+      this.resetOptions();      
 	  return(
 		<div className="row ">
 		  <div className="text-center col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
 			<label className={css(this.props.currentPassFail.passFail && (this.props.currentAnswer === this.props.answerList[this.props.currentLocation].answer) && styles.correctAnswer, this.props.currentPassFail.passFail && (this.props.currentAnswer !== this.props.answerList[this.props.currentLocation].answer) && styles.wrongAnswers)}>{this.props.currentQuizAnswer}</label>
 		  </div>
           <div className="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
-            <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} />
+            <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={true}  onClick={this.saveTrueAnswer} id="option1" />
             <label className={css(styles.indentAnswerOptions)}> True </label>
           </div>
           <div className="col-xs-8 col-xs-offset-4 col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 col-lg-8 col-lg-offset-4">
-            <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={false}  onClick={this.saveFalseAnswer} />
+            <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={false}  onClick={this.saveFalseAnswer} id="option2" />
             <label className={css(styles.indentAnswerOptions)}> False </label>
           </div>
           <Instructions show={this.state.show} hideMCInstructions={this.hideMCInstructions} />                              

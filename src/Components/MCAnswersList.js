@@ -97,7 +97,7 @@ class MCAnswersList extends Component{
     //create a array of options as <li> to be displayed as answers. When the user select answer, the value is updated to the userAnswer state	
     const listOfAnswers = randomAnswers.map((answers, index) =>
 	  <li key={index}>
-	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} />
+	    <input className={css(styles.spaceBetweenOptions)} type="radio" name="choice" value={answers.answer} onClick={this.saveUserAnswer} id={"option" + index} />
 		<label className={css(this.props.currentPassFail.passFail && (answers.answer === this.props.answerList[this.props.currentLocation.questionAnswered].answer) && styles.correctAnswer, this.props.currentPassFail.passFail && (answers.answer !== this.props.answerList[this.props.currentLocation.questionAnswered].answer) && styles.wrongAnswers)}>{answers.answer}</label>			   
 	  </li>									   
     );
@@ -132,9 +132,27 @@ class MCAnswersList extends Component{
   //close the M.C. Instructions pop up
   hideMCInstructions = () =>{
     this.setState({show: false});
-  }  
+  }
+  
+  //Bug: When the user choose an answer and click the "CheckAnswer" button, the input radio options remain selected. Even when the next question and answers are shown, the previous answer choice is selected but not offically "checked". This solves that problem by uncheckeing all options once the "CheckAnswerButton" is clicked and the passFail state is updated. This is use as a trigger to uncheck all input radio options.  
+  //A second way to do this is to set each input check to a local state. If the passFail is set to true, update the local state to true. IF false, update the local state to null or something to hide it. 
+  resetOptions = () =>{
+      //check if the "CheckAnswerButton" has been press by checking if the Redux state "passFail" is true or false
+      if(this.props.currentPassFail.passFail === true){
+          let topAnswer = document.getElementById("option0");//get the element
+          let middleAnswer = document.getElementById("option1");
+          let bottomAnswer = document.getElementById("option2");
+
+          //The below code resets the radio input options to false, giving the impression no answer has been selected. 
+          topAnswer.checked = false;
+          middleAnswer.checked = false;
+          bottomAnswer.checked = false;
+
+      }
+  }
 
   render(){	
+      this.resetOptions();
 	  return(
 		<div className={`row ${css(styles.indentAnswerOptions)}`}>
 		  <div className="col-xs-8 col-xs-offset-3 col-sm-8 col-sm-offset-3 col-md-10 col-md-offset-2 col-lg-8 col-lg-offset-3">
